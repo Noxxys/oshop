@@ -27,6 +27,8 @@ import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 import { ProductFormComponent } from './components/admin/product-form/product-form.component';
 import { CategoryService } from './services/category.service';
 import { FormsModule } from '@angular/forms';
+import { ProductService } from './services/product.service';
+import { CustomFormsModule } from 'ng2-validation';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { FormsModule } from '@angular/forms';
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     // AngularFireStorageModule, // imports firebase/storage only needed for storage features
     FormsModule,
+    CustomFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
@@ -73,6 +76,7 @@ import { FormsModule } from '@angular/forms';
     AuthService,
     AuthGuardService,
     CategoryService,
+    ProductService,
     UserService
   ],
   bootstrap: [AppComponent]

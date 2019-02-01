@@ -15,9 +15,7 @@ export class UserService {
     this.db.doc('/users/' + user.uid).set({
       name: user.displayName,
       email: user.email
-    }, { merge: true })
-      .then(() => console.log('user saved successfully'))
-      .catch((reason: any) => console.log('user save failed:', reason));
+    }, { merge: true });
   }
 
   get(uid: string): Observable<AppUser> {

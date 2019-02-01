@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ProductService } from 'src/app/services/product.service';
+import { Category } from 'src/app/models/category.interface';
+import { Product } from 'src/app/models/product.interface';
 
 @Component({
   selector: 'app-product-form',
@@ -9,22 +11,16 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./product-form.component.scss']
 })
 export class ProductFormComponent implements OnInit {
-  categories$: Observable<any[]>;
+  categories$: Observable<Category[]>;
 
-  constructor(categoryService: CategoryService) {
-    this.categories$ = categoryService.getAll().snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data();
-        const id = action.payload.doc.id;
-        return { id, ...data};
-      }))
-    );
+  constructor(categoryService: CategoryService, private productService: ProductService) {
+    this.categories$ = categoryService.getAll();
    }
 
   ngOnInit() {
   }
 
-  save(form) {
-    console.log(form);
+  save(product: Product) {
+    this.productService.create(product);
   }
 }
