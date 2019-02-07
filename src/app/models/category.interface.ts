@@ -1,4 +1,5 @@
-export interface Category {
+import { FirebaseObject } from './firebase-object.interface';
+
+export interface Category extends FirebaseObject {
   name: string;
-  id: string;
 }
