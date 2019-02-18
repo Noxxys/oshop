@@ -3,16 +3,19 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { AppUser } from '../models/app-user.interface';
 import { Observable } from 'rxjs';
+import { FirebaseCollection } from './firebase-collection';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService extends FirebaseCollection<AppUser> {
 
-  constructor(private db: AngularFirestore) { }
+  constructor(db: AngularFirestore) {
+    super(db, 'users');
+  }
 
   save(user: firebase.User) {
-    this.db.doc('/users/' + user.uid).set({
+    this.db.doc(`/${this.name}/${user.uid}`).set({
       name: user.displayName,
       email: user.email
     }, { merge: true });

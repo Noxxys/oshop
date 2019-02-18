@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 export class FirebaseCollection<T> {
   collection: AngularFirestoreCollection<T>;
 
-  constructor(private db: AngularFirestore, private name: string) {
+  constructor(protected db: AngularFirestore, protected name: string) {
     this.collection = this.db.collection<T>(name);
    }
 
@@ -24,8 +24,16 @@ export class FirebaseCollection<T> {
     );
   }
 
-  create(product: T) {
-    this.collection.add(product);
+  create(object: T) {
+    this.collection.add(object);
+  }
+
+  update(id: string, object: T): Promise<void> {
+    return this.db.doc<T>(`/${this.name}/${id}`).update(object);
+  }
+
+  delete(id: string): Promise<void> {
+    return this.db.doc<T>(`/${this.name}/${id}`).delete();
   }
 
   sortBy(orderBy: string): FirebaseCollection<T>   {

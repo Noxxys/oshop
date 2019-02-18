@@ -1,21 +1,28 @@
-<p>
-  <a routerLink="/admin/products/new" class="btn btn-primary">New product</a>
-</p>
-<table class="table">
-<thead>
-  <tr>
-    <th>Title</th>
-    <th>Price</th>
-    <th></th>
-  </tr>
-</thead>
-<tbody>
-  <tr *ngFor="let p of products$ | async">
-    <td>{{ p.title }}</td>
-    <td>{{ p.price }}</td>
-    <td>
-      <a [routerLink]="['/admin/products/', p.id]">Edit</a>
-    </td>
-  </tr>
-</tbody>
+<div class="row justify-content-between">
+  <div class="col-3">
+    <a routerLink="/admin/products/new" class="btn btn-primary">New product</a>
+  </div>
+  <div class="col-3">
+    <input #search (keyup)="filter(search.value)" type="text"
+      class="form-control" placeholder="Search">
+  </div>
+</div>
+
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of filteredProducts">
+      <td>{{ p.title }}</td>
+      <td>{{ p.price }}</td>
+      <td>
+        <a [routerLink]="['/admin/products/', p.id]">Edit</a>
+      </td>
+    </tr>
+  </tbody>
 </table>
