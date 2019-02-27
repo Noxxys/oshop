@@ -1,1 +1,8 @@
-<button class="btn btn-primary" (click)="login()">Log in with Google</button>
+<button class="btn btn-primary" (click)="login()" *ngIf="!loginInProgress">
+  <span>Log in with Google</span>
+</button>
+
+<button class="btn btn-primary" type="button" disabled *ngIf="loginInProgress">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Logging in...
+  </button>

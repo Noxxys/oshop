@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Product } from 'src/app/models/product';
-import { filter, map } from 'rxjs/operators';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-admin-products',
@@ -10,33 +10,43 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./admin-products.component.scss']
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
-  private products: Product[];
-  private subscription: Subscription;
-  filteredProducts: Product[];
-  query = '';
+  columnsToDisplay = ['title', 'category', 'price', 'edit'];
+  fieldsToFilter = ['title', 'category', 'price'];
+  dataSource: MatTableDataSource<Product>;
+  subscription: Subscription;
+  filterValue: string;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(private productService: ProductService) {
-    this.subscription = this.productService.sortBy('title').getAll().subscribe(
-      products => {
-        this.products = products;
-        this.filter(this.query);
-      });
+    this.dataSource = new MatTableDataSource<Product>();
   }
 
   ngOnInit() {
+    this.subscription = this.productService.getAll().subscribe(products => this.dataSource.data = products);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSource.filterPredicate = this.customFilterPredicate;
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-  filter(query: string) {
-    this.query = query;
+  applyFilter() {
+    this.dataSource.filter = this.filterValue.trim().toLowerCase();
+  }
 
-    if (this.query) {
-      this.filteredProducts = this.products.filter(product => new RegExp(this.query, 'i').test(product.title));
-    } else {
-      this.filteredProducts = this.products;
-    }
+  clearFilter() {
+    this.filterValue = '';
+    this.applyFilter();
+  }
+
+  customFilterPredicate = (data: Product, filter: string): boolean => {
+    const allValues = this.fieldsToFilter.reduce(
+      (text: string, field: string) => text += (data[field] + '').trim().toLowerCase(),
+      '');
+    return allValues.includes(filter);
   }
 }

@@ -20,14 +20,14 @@ export class AuthService {
     this.user$ = angularFireAuth.authState;
   }
 
-  login() {
+  login(): Promise<void> {
     const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
-    localStorage.setItem('returnUrl', returnUrl);
-    this.angularFireAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+    sessionStorage.setItem('returnUrl', returnUrl);
+    return this.angularFireAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
   }
 
-  logout() {
-    this.angularFireAuth.auth.signOut();
+  logout(): Promise<void> {
+    return this.angularFireAuth.auth.signOut();
   }
 
   get appUser$(): Observable<AppUser> {
