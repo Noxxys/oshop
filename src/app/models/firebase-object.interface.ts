@@ -1,3 +1,3 @@
 export interface FirebaseObject {
-  id: string;
+  id?: string;
 }

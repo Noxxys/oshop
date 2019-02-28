@@ -4,6 +4,11 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-body {
-  padding-top: 80px;
+// body {
+//   padding-top: 80px;
+// }
+
+html, body {
+  margin: 0;
+  height: 100%;
 }

@@ -1,7 +1,7 @@
 import { FirebaseObject } from './firebase-object.interface';
 
 export class Product implements FirebaseObject {
-  id: string;
+  id?: string;
   title: string;
   price: number;
   category: string;

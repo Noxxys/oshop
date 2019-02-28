@@ -1,0 +1,8 @@
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.vertical-form > * {
+  width: 100%;
+}

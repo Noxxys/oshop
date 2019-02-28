@@ -1,0 +1,14 @@
+<mat-toolbar>
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div>
+    <a routerLink="/">Oshop</a>
+  </div>
+  <div fxFlex fxLayout fxLayoutAlign="end" fxLayoutGap="20px" fxHide.xs>
+    <a routerLink="/shopping-cart">Shopping cart</a>
+    <a routerLink="/admin/products">Manage products</a>
+  </div>
+</mat-toolbar>

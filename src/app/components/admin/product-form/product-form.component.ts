@@ -6,6 +6,8 @@ import { Category } from 'src/app/models/category.interface';
 import { Product } from 'src/app/models/product';
 import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { CustomValidators } from 'ng2-validation';
 
 @Component({
   selector: 'app-product-form',
@@ -14,8 +16,31 @@ import { take } from 'rxjs/operators';
 })
 export class ProductFormComponent implements OnInit {
   categories$: Observable<Category[]>;
-  product = new Product();
+  //product = new Product();
   id: string;
+
+  productForm = new FormGroup({
+    title: new FormControl('', [Validators.required]),
+    price: new FormControl('', [Validators.required, Validators.min(0)]),
+    category: new FormControl('', [Validators.required]),
+    imageUrl: new FormControl('', [Validators.required, CustomValidators.url])
+  });
+
+  get title(): FormControl {
+    return this.productForm.get('title') as FormControl;
+  }
+
+  get price(): FormControl {
+    return this.productForm.get('price') as FormControl;
+  }
+
+  get category(): FormControl {
+    return this.productForm.get('category') as FormControl;
+  }
+
+  get imageUrl(): FormControl {
+    return this.productForm.get('imageUrl') as FormControl;
+  }
 
   constructor(
     private categoryService: CategoryService,
@@ -28,11 +53,35 @@ export class ProductFormComponent implements OnInit {
     this.categories$ = this.categoryService.getAll();
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.productService.get(this.id).pipe(take(1)).subscribe(p => this.product = p);
+      this.productService.get(this.id).pipe(take(1)).subscribe((product: Product) => {
+        if (product) {
+          this.productForm.get('title').setValue(product.title);
+          this.productForm.get('price').setValue(product.price);
+          this.productForm.get('category').setValue(product.category);
+          this.productForm.get('imageUrl').setValue(product.imageUrl);
+        }
+      });
     }
   }
 
-  save(product: Product) {
+  // save(product: Product) {
+  //   if (this.id) {
+  //     this.productService.update(this.id, product);
+  //   } else {
+  //     this.productService.create(product);
+  //   }
+
+  //   this.router.navigate(['/admin/products']);
+  // }
+
+  onSubmit() {
+    const product: Product = {
+      title: this.productForm.get('title').value,
+      price: this.productForm.get('price').value,
+      category: this.productForm.get('category').value,
+      imageUrl: this.productForm.get('imageUrl').value,
+    };
+
     if (this.id) {
       this.productService.update(this.id, product);
     } else {
@@ -49,5 +98,21 @@ export class ProductFormComponent implements OnInit {
 
     this.productService.delete(this.id);
     this.router.navigate(['/admin/products']);
+  }
+
+  getErrorMessage(control: FormControl, fieldName: string) {
+    if (control.hasError('required')) {
+      return `${fieldName} is required`;
+    }
+
+    if (control.hasError('min')) {
+      return `${fieldName} must have a minimum value of ${control.errors.min.min}`;
+    }
+
+    if (control.hasError('url')) {
+      return `${fieldName} must be a valid URL`;
+    }
+
+    return '';
   }
 }
