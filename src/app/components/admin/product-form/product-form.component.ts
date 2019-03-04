@@ -12,18 +12,17 @@ import { CustomValidators } from 'ng2-validation';
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss']
+  styleUrls: ['./product-form.component.scss'],
 })
 export class ProductFormComponent implements OnInit {
   categories$: Observable<Category[]>;
-  //product = new Product();
   id: string;
 
   productForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required, Validators.min(0)]),
     category: new FormControl('', [Validators.required]),
-    imageUrl: new FormControl('', [Validators.required, CustomValidators.url])
+    imageUrl: new FormControl('', [Validators.required, CustomValidators.url]),
   });
 
   get title(): FormControl {
@@ -46,21 +45,24 @@ export class ProductFormComponent implements OnInit {
     private categoryService: CategoryService,
     private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute) {
-  }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.categories$ = this.categoryService.getAll();
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.productService.get(this.id).pipe(take(1)).subscribe((product: Product) => {
-        if (product) {
-          this.productForm.get('title').setValue(product.title);
-          this.productForm.get('price').setValue(product.price);
-          this.productForm.get('category').setValue(product.category);
-          this.productForm.get('imageUrl').setValue(product.imageUrl);
-        }
-      });
+      this.productService
+        .get(this.id)
+        .pipe(take(1))
+        .subscribe((product: Product) => {
+          if (product) {
+            this.productForm.get('title').setValue(product.title);
+            this.productForm.get('price').setValue(product.price);
+            this.productForm.get('category').setValue(product.category);
+            this.productForm.get('imageUrl').setValue(product.imageUrl);
+          }
+        });
     }
   }
 
@@ -106,7 +108,9 @@ export class ProductFormComponent implements OnInit {
     }
 
     if (control.hasError('min')) {
-      return `${fieldName} must have a minimum value of ${control.errors.min.min}`;
+      return `${fieldName} must have a minimum value of ${
+        control.errors.min.min
+      }`;
     }
 
     if (control.hasError('url')) {

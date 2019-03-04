@@ -5,3 +5,27 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
+
+.mat-column-price {
+  width: 70px;
+  text-align: right;
+}
+
+.mat-column-edit {
+  width: 50px;
+  text-align: right;
+}
+
+a {
+  color: #673ab7;
+  text-decoration: none;
+}
+
+.new-product-row {
+  mat-form-field {
+    max-width: 180px;
+    min-width: 64px;
+  }
+
+  margin-bottom: 15px;
+}

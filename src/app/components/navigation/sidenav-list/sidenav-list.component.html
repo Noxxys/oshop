@@ -1,0 +1,39 @@
+<mat-nav-list>
+  <a mat-list-item routerLink="/" (click)="onSidenavClose()">
+    <span class="nav-caption">Home</span>
+  </a>
+  <a mat-list-item routerLink="/shopping-cart" (click)="onSidenavClose()">
+    <span class="nav-caption">Shopping cart</span>
+  </a>
+  <a
+    mat-list-item
+    *ngIf="appUser; else anonymousUser"
+    [matMenuTriggerFor]="menu"
+  >
+    <span class="nav-caption">{{ appUser.name }}</span>
+  </a>
+  <ng-template #anonymousUser>
+    <a mat-list-item routerLink="/login" (click)="onSidenavClose()">
+      <span class="nav-caption">Log in</span>
+    </a>
+  </ng-template>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/my-orders" (click)="onSidenavClose()">
+      My orders
+    </button>
+    <button mat-menu-item routerLink="/admin/orders" (click)="onSidenavClose()">
+      Manage orders
+    </button>
+    <button
+      mat-menu-item
+      routerLink="/admin/products"
+      (click)="onSidenavClose()"
+    >
+      Manage products
+    </button>
+    <button mat-menu-item (click)="logout(); onSidenavClose()">
+      Log out
+    </button>
+  </mat-menu>
+</mat-nav-list>

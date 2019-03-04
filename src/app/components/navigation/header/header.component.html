@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <button mat-button routerLink="/" class="toolbar-item">Oshop</button>
+  <span fxFlex></span>
+  <div fxHide.xs>
+    <button mat-button routerLink="/shopping-cart" class="toolbar-item">
+      Shopping cart
+    </button>
+
+    <button
+      mat-button
+      *ngIf="appUser; else anonymousUser"
+      [matMenuTriggerFor]="menu"
+      class="toolbar-item"
+    >
+      {{ appUser.name }}
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/my-orders">My orders</button>
+      <button mat-menu-item routerLink="/admin/orders">Manage orders</button>
+      <button mat-menu-item routerLink="/admin/products">
+        Manage products
+      </button>
+      <button mat-menu-item (click)="logout()">Log out</button>
+    </mat-menu>
+
+    <ng-template #anonymousUser>
+      <button mat-button routerLink="/login" class="toolbar-item">
+        Log in
+      </button>
+    </ng-template>
+  </div>
+</mat-toolbar>
