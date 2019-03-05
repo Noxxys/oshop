@@ -1,5 +1,5 @@
 <div fxLayout fxLayoutAlign="space-between center" class="new-product-row">
-  <button routerLink="/admin/products/new" mat-flat-button color="primary">
+  <button routerLink="/admin/products/new" mat-flat-button color="accent">
     New product
   </button>
   <mat-form-field>
@@ -31,7 +31,7 @@
 
   <ng-container matColumnDef="category">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-    <td mat-cell *matCellDef="let product">{{ product.category }}</td>
+    <td mat-cell *matCellDef="let product">{{ product.category.name }}</td>
   </ng-container>
 
   <ng-container matColumnDef="price">

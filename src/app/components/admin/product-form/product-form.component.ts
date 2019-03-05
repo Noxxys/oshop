@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
 import { Category } from 'src/app/models/category.interface';
 import { Product } from 'src/app/models/product';
@@ -14,31 +14,36 @@ import { CustomValidators } from 'ng2-validation';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss'],
 })
-export class ProductFormComponent implements OnInit {
-  categories$: Observable<Category[]>;
+export class ProductFormComponent implements OnInit, OnDestroy {
+  categories: Category[];
   id: string;
+  categoriesSubscription: Subscription;
+  productsSubscription: Subscription;
 
   productForm = new FormGroup({
-    title: new FormControl('', [Validators.required]),
-    price: new FormControl('', [Validators.required, Validators.min(0)]),
-    category: new FormControl('', [Validators.required]),
-    imageUrl: new FormControl('', [Validators.required, CustomValidators.url]),
+    titleControl: new FormControl('', [Validators.required]),
+    priceControl: new FormControl('', [Validators.required, Validators.min(0)]),
+    categoryControl: new FormControl('', [Validators.required]),
+    imageUrlControl: new FormControl('', [
+      Validators.required,
+      CustomValidators.url,
+    ]),
   });
 
-  get title(): FormControl {
-    return this.productForm.get('title') as FormControl;
+  get titleControl(): FormControl {
+    return this.productForm.get('titleControl') as FormControl;
   }
 
-  get price(): FormControl {
-    return this.productForm.get('price') as FormControl;
+  get priceControl(): FormControl {
+    return this.productForm.get('priceControl') as FormControl;
   }
 
-  get category(): FormControl {
-    return this.productForm.get('category') as FormControl;
+  get categoryControl(): FormControl {
+    return this.productForm.get('categoryControl') as FormControl;
   }
 
-  get imageUrl(): FormControl {
-    return this.productForm.get('imageUrl') as FormControl;
+  get imageUrlControl(): FormControl {
+    return this.productForm.get('imageUrlControl') as FormControl;
   }
 
   constructor(
@@ -46,42 +51,48 @@ export class ProductFormComponent implements OnInit {
     private productService: ProductService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.categories = [];
+  }
 
   ngOnInit() {
-    this.categories$ = this.categoryService.getAll();
+    this.categoriesSubscription = this.categoryService
+      .getAll()
+      .subscribe(categories => (this.categories = categories));
+
     this.id = this.route.snapshot.paramMap.get('id');
+
     if (this.id) {
-      this.productService
+      this.productsSubscription = this.productService
         .get(this.id)
         .pipe(take(1))
         .subscribe((product: Product) => {
           if (product) {
-            this.productForm.get('title').setValue(product.title);
-            this.productForm.get('price').setValue(product.price);
-            this.productForm.get('category').setValue(product.category);
-            this.productForm.get('imageUrl').setValue(product.imageUrl);
+            this.productForm.get('titleControl').setValue(product.title);
+            this.productForm.get('priceControl').setValue(product.price);
+            this.productForm
+              .get('categoryControl')
+              .setValue(product.categoryId);
+            this.productForm.get('imageUrlControl').setValue(product.imageUrl);
           }
         });
     }
   }
 
-  // save(product: Product) {
-  //   if (this.id) {
-  //     this.productService.update(this.id, product);
-  //   } else {
-  //     this.productService.create(product);
-  //   }
+  ngOnDestroy() {
+    this.categoriesSubscription.unsubscribe();
 
-  //   this.router.navigate(['/admin/products']);
-  // }
+    if (this.productsSubscription) {
+      this.productsSubscription.unsubscribe();
+    }
+  }
 
   onSubmit() {
     const product: Product = {
-      title: this.productForm.get('title').value,
-      price: this.productForm.get('price').value,
-      category: this.productForm.get('category').value,
-      imageUrl: this.productForm.get('imageUrl').value,
+      title: this.productForm.get('titleControl').value,
+      price: this.productForm.get('priceControl').value,
+      categoryId: this.productForm.get('categoryControl').value,
+      imageUrl: this.productForm.get('imageUrlControl').value,
     };
 
     if (this.id) {
@@ -118,5 +129,14 @@ export class ProductFormComponent implements OnInit {
     }
 
     return '';
+  }
+
+  getCategoryNameById(id: string): string {
+    if (!id) {
+      return null;
+    }
+
+    const result = this.categories.find(category => category.id === id);
+    return result ? result.name : null;
   }
 }

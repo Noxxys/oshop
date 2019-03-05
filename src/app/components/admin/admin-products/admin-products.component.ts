@@ -7,7 +7,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 @Component({
   selector: 'app-admin-products',
   templateUrl: './admin-products.component.html',
-  styleUrls: ['./admin-products.component.scss']
+  styleUrls: ['./admin-products.component.scss'],
 })
 export class AdminProductsComponent implements OnInit, OnDestroy {
   columnsToDisplay = ['title', 'category', 'price', 'edit'];
@@ -24,7 +24,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.productService.getAll().subscribe(products => this.dataSource.data = products);
+    this.subscription = this.productService
+      .getAllPopulatedProducts()
+      .subscribe(products => (this.dataSource.data = products));
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.customFilterPredicate;
@@ -45,8 +47,10 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
 
   customFilterPredicate = (data: Product, filter: string): boolean => {
     const allValues = this.fieldsToFilter.reduce(
-      (text: string, field: string) => text += (data[field] + '').trim().toLowerCase(),
-      '');
+      (text: string, field: string) =>
+        (text += (data[field] + '').trim().toLowerCase()),
+      ''
+    );
     return allValues.includes(filter);
-  }
+  };
 }

@@ -1,4 +1,7 @@
-import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
+import {
+  AngularFirestoreCollection,
+  AngularFirestore,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -7,7 +10,7 @@ export class FirebaseCollection<T> {
 
   constructor(protected db: AngularFirestore, protected name: string) {
     this.collection = this.db.collection<T>(name);
-   }
+  }
 
   get(id: string): Observable<T> {
     return this.db.doc<T>(`/${this.name}/${id}`).valueChanges();
@@ -15,12 +18,14 @@ export class FirebaseCollection<T> {
 
   getAll(): Observable<T[]> {
     return this.collection.snapshotChanges().pipe(
-      map(actions => actions.map(action => {
-        const data = action.payload.doc.data();
-        const id = action.payload.doc.id;
-        // return { id, ...data};
-        return Object.assign({ id }, data);
-      }))
+      map(actions =>
+        actions.map(action => {
+          const data = action.payload.doc.data();
+          const id = action.payload.doc.id;
+          // return { id, ...data };
+          return Object.assign({ id }, data);
+        })
+      )
     );
   }
 
@@ -36,8 +41,10 @@ export class FirebaseCollection<T> {
     return this.db.doc<T>(`/${this.name}/${id}`).delete();
   }
 
-  sortBy(orderBy: string): FirebaseCollection<T>   {
-    this.collection = this.db.collection<T>(this.name, ref => ref.orderBy(orderBy));
+  sortBy(orderBy: string): FirebaseCollection<T> {
+    this.collection = this.db.collection<T>(this.name, ref =>
+      ref.orderBy(orderBy)
+    );
     return this;
   }
 }

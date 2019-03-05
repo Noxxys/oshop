@@ -1,8 +1,9 @@
-.vertical-form {
-  display: flex;
-  flex-direction: column;
-}
+mat-card {
+  width: 300px;
 
-.vertical-form > * {
-  width: 100%;
+  img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+  }
 }

@@ -1,3 +1,41 @@
-<p>
-  home works!
-</p>
+<div fxLayout fxLayout.xs="column">
+  <div fxFlex="250px">
+    <mat-radio-group
+      [(ngModel)]="selectedCategoryId"
+      (change)="onSelectedCategoryChange()"
+      fxLayout="column"
+      fxLayoutGap="1rem"
+    >
+      <mat-radio-button value=''>
+        All categories
+      </mat-radio-button>
+      <mat-radio-button
+        *ngFor="let category of (categories$ | async)"
+        [value]="category.id"
+      >
+        {{ category.name }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div fxFlex>
+    <div fxLayout="row wrap" fxLayoutGap="10px">
+      <mat-card *ngFor="let product of (products$ | async)">
+        <mat-card-header>
+          <mat-card-title>
+            {{ product.title }}
+          </mat-card-title>
+          <mat-card-subtitle>
+            {{ product.category.name }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <img [src]="product.imageUrl" alt="" />
+        <mat-card-content>
+          {{ product.price | currency: 'USD':'symbol' }}
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-flat-button color="primary">Buy</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
