@@ -1,0 +1,17 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ title }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ category }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <img [src]="imageUrl" alt="" />
+    <mat-card-content>
+      {{ price | currency: 'USD':'symbol' }}
+    </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="showAddToCartButton" mat-flat-button color="primary">Add to cart</button>
+    </mat-card-actions>
+  </mat-card>

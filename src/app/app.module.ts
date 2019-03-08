@@ -30,6 +30,7 @@ import { MaterialModule } from './material/material.module';
 import { HeaderComponent } from './components/navigation/header/header.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
     ProductFormComponent,
     HeaderComponent,
     SidenavListComponent,
+    ProductCardComponent,
   ],
   imports: [
     BrowserModule,

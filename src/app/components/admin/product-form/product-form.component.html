@@ -87,19 +87,11 @@
     </form>
   </div>
   <div>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          {{ titleControl.value || 'Title' }}
-        </mat-card-title>
-        <mat-card-subtitle>
-          {{ getCategoryNameById(categoryControl.value) || 'Category' }}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <img [src]="imageUrlControl.valid ? imageUrlControl.value : ''" alt="" />
-      <mat-card-content>
-        {{ priceControl.value || '0' | currency: 'USD':'symbol' }}
-      </mat-card-content>
-    </mat-card>
+    <app-product-card
+      [title]="titleControl.value || 'Title'"
+      [category]="getCategoryNameById(categoryControl.value) || 'Category'"
+      [imageUrl]="imageUrlControl.valid ? imageUrlControl.value : ''"
+      [price]="priceControl.value || '0'"
+    ></app-product-card>
   </div>
 </div>

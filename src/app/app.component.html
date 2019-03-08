@@ -4,7 +4,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
-    <main role="main">
+    <main role="main" ngClass.gt-xs="full-height" ngClass.xs="">
       <router-outlet></router-outlet>
     </main>
   </mat-sidenav-content>

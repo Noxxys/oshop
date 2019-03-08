@@ -1,12 +1,12 @@
-<div fxLayout fxLayout.xs="column">
-  <div fxFlex="250px">
+<div fxLayout fxLayout.xs="column" ngClass.gt-xs="full-height" ngClass.xs="">
+  <div fxFlex="250px" ngClass.gt-xs="scroll" class="padding">
     <mat-radio-group
       [(ngModel)]="selectedCategoryId"
       (change)="onSelectedCategoryChange()"
       fxLayout="column"
       fxLayoutGap="1rem"
     >
-      <mat-radio-button value=''>
+      <mat-radio-button value="">
         All categories
       </mat-radio-button>
       <mat-radio-button
@@ -17,25 +17,16 @@
       </mat-radio-button>
     </mat-radio-group>
   </div>
-  <div fxFlex>
+  <div fxFlex ngClass.gt-xs="scroll" class="padding">
     <div fxLayout="row wrap" fxLayoutGap="10px">
-      <mat-card *ngFor="let product of (products$ | async)">
-        <mat-card-header>
-          <mat-card-title>
-            {{ product.title }}
-          </mat-card-title>
-          <mat-card-subtitle>
-            {{ product.category.name }}
-          </mat-card-subtitle>
-        </mat-card-header>
-        <img [src]="product.imageUrl" alt="" />
-        <mat-card-content>
-          {{ product.price | currency: 'USD':'symbol' }}
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-flat-button color="primary">Buy</button>
-        </mat-card-actions>
-      </mat-card>
+      <app-product-card
+        *ngFor="let product of (products$ | async)"
+        [title]="product.title"
+        [category]="product.category.name"
+        [imageUrl]="product.imageUrl"
+        [price]="product.price"
+        [showAddToCartButton]="true"
+      ></app-product-card>
     </div>
   </div>
 </div>

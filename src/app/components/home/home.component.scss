@@ -1,9 +1,11 @@
-mat-card {
-  margin-bottom: 10px;
+.full-height {
+  height: 100%;
+}
 
-  img {
-    width: 300px;
-    height: 300px;
-    object-fit: contain;
-  }
+.scroll {
+  overflow-y: auto;  /*adds scroll to this container*/
+}
+
+.padding {
+  padding: 15px;
 }
