@@ -11,16 +11,17 @@ import { FirebaseCollection } from './firebase-collection';
 export class UserService extends FirebaseCollection<AppUser> {
 
   constructor(db: AngularFirestore) {
-    super(db, 'users');
+    super(db, '/users');
   }
 
   save(user: firebase.User) {
-    this.db.doc(`/${this.name}/${user.uid}`).set({
+    this.db.doc(`/${this.path}/${user.uid}`).set({
       name: user.displayName,
       email: user.email
     }, { merge: true });
   }
 
+  // TODO: necessary? can't super.get do that?
   get(uid: string): Observable<AppUser> {
     return this.db.doc<AppUser>('/users/' + uid).valueChanges();
   }

@@ -5,6 +5,7 @@ import { Category } from 'src/app/models/category.interface';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class HomeComponent {
   categories$: Observable<Category[]>;
   products$: Observable<Product[]>;
+  items$: Observable<ShoppingCartItem[]>;
   selectedCategoryId: string;
 
   constructor(

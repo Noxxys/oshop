@@ -31,6 +31,8 @@ import { HeaderComponent } from './components/navigation/header/header.component
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import { ShoppingCartService } from './services/shopping-cart.service';
+import { ShoppingCartItemService } from './services/shopping-cart-item.service';
 
 @NgModule({
   declarations: [
@@ -112,6 +114,8 @@ import { ProductCardComponent } from './components/product-card/product-card.com
     AuthGuardService,
     CategoryService,
     ProductService,
+    ShoppingCartService,
+    ShoppingCartItemService,
     UserService,
   ],
   bootstrap: [AppComponent],

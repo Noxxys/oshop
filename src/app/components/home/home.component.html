@@ -1,5 +1,5 @@
 <div fxLayout fxLayout.xs="column" ngClass.gt-xs="full-height" ngClass.xs="">
-  <div fxFlex="250px" ngClass.gt-xs="scroll" class="padding">
+  <div fxFlex="250px" ngClass.gt-xs="scroll" class="container">
     <mat-radio-group
       [(ngModel)]="selectedCategoryId"
       (change)="onSelectedCategoryChange()"
@@ -17,15 +17,11 @@
       </mat-radio-button>
     </mat-radio-group>
   </div>
-  <div fxFlex ngClass.gt-xs="scroll" class="padding">
+  <div fxFlex ngClass.gt-xs="scroll" class="container">
     <div fxLayout="row wrap" fxLayoutGap="10px">
       <app-product-card
         *ngFor="let product of (products$ | async)"
-        [title]="product.title"
-        [category]="product.category.name"
-        [imageUrl]="product.imageUrl"
-        [price]="product.price"
-        [showAddToCartButton]="true"
+        [product]="product"
       ></app-product-card>
     </div>
   </div>

@@ -1,7 +1,9 @@
+@import '../../../variables.scss';
+
 .toolbar-item {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 mat-toolbar {
-  height: 50px;
+  height: $header-height;
 }

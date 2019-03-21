@@ -16,9 +16,9 @@ import { CustomValidators } from 'ng2-validation';
 })
 export class ProductFormComponent implements OnInit, OnDestroy {
   categories: Category[];
-  id: string;
   categoriesSubscription: Subscription;
   productsSubscription: Subscription;
+  product: Product;
 
   productForm = new FormGroup({
     titleControl: new FormControl('', [Validators.required]),
@@ -53,21 +53,25 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {
     this.categories = [];
-  }
+    this.product = new Product();
 
-  ngOnInit() {
     this.categoriesSubscription = this.categoryService
       .getAll()
       .subscribe(categories => (this.categories = categories));
 
-    this.id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    if (this.id) {
+    if (id) {
+      this.product.id = id;
+
       this.productsSubscription = this.productService
-        .get(this.id)
+        .get(id)
         .pipe(take(1))
         .subscribe((product: Product) => {
           if (product) {
+            this.product = product;
+            this.product.category = this.getCategoryById(product.categoryId);
+
             this.productForm.get('titleControl').setValue(product.title);
             this.productForm.get('priceControl').setValue(product.price);
             this.productForm
@@ -79,6 +83,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnInit() {}
+
   ngOnDestroy() {
     this.categoriesSubscription.unsubscribe();
 
@@ -87,18 +93,29 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onChange() {
+    this.product.title = this.titleControl.value;
+    this.product.categoryId = this.categoryControl.value;
+    this.product.category = this.getCategoryById(this.categoryControl.value);
+    this.product.price = this.priceControl.value;
+
+    this.product.imageUrl = this.imageUrlControl.valid
+      ? this.imageUrlControl.value
+      : '';
+  }
+
   onSubmit() {
-    const product: Product = {
-      title: this.productForm.get('titleControl').value,
-      price: this.productForm.get('priceControl').value,
-      categoryId: this.productForm.get('categoryControl').value,
-      imageUrl: this.productForm.get('imageUrlControl').value,
+    const productToSave: Product = {
+      title: this.product.title,
+      price: this.product.price,
+      categoryId: this.product.categoryId,
+      imageUrl: this.product.imageUrl,
     };
 
-    if (this.id) {
-      this.productService.update(this.id, product);
+    if (this.product.id) {
+      this.productService.update(this.product.id, productToSave);
     } else {
-      this.productService.create(product);
+      this.productService.create(productToSave);
     }
 
     this.router.navigate(['/admin/products']);
@@ -109,7 +126,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.productService.delete(this.id);
+    this.productService.delete(this.product.id);
     this.router.navigate(['/admin/products']);
   }
 
@@ -131,12 +148,11 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  getCategoryNameById(id: string): string {
+  getCategoryById(id: string): Category {
     if (!id) {
       return null;
     }
 
-    const result = this.categories.find(category => category.id === id);
-    return result ? result.name : null;
+    return this.categories.find(category => category.id === id);
   }
 }

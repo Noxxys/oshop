@@ -1,97 +1,101 @@
-<div fxLayout fxLayout.xs="column" fxLayoutGap="30px">
-  <div fxFlex>
-    <form
-      [formGroup]="productForm"
-      (ngSubmit)="onSubmit()"
-      fxLayout="column"
-      fxLayoutGap="15px"
-    >
-      <mat-form-field>
-        <input
-          type="text"
-          matInput
-          placeholder="Title"
-          formControlName="titleControl"
-          required
-        />
-        <mat-error *ngIf="titleControl.invalid">
-          {{ getErrorMessage(titleControl, 'Title') }}
-        </mat-error>
-      </mat-form-field>
+<div class="container">
+  <div fxLayout fxLayout.xs="column" fxLayoutGap="30px">
+    <div fxFlex>
+      <form
+        [formGroup]="productForm"
+        (ngSubmit)="onSubmit()"
+        fxLayout="column"
+        fxLayoutGap="16px"
+      >
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            placeholder="Title"
+            formControlName="titleControl"
+            required
+            (keyup)="onChange()"
+          />
+          <mat-error *ngIf="titleControl.invalid">
+            {{ getErrorMessage(titleControl, 'Title') }}
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field>
-        <input
-          type="number"
-          matInput
-          placeholder="Price"
-          formControlName="priceControl"
-          required
-        />
-        <span matSuffix>&nbsp;$</span>
-        <mat-error *ngIf="priceControl.invalid">
-          {{ getErrorMessage(priceControl, 'Price') }}
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field>
+          <input
+            type="number"
+            matInput
+            placeholder="Price"
+            formControlName="priceControl"
+            required
+            (keyup)="onChange()"
+          />
+          <span matSuffix>&nbsp;$</span>
+          <mat-error *ngIf="priceControl.invalid">
+            {{ getErrorMessage(priceControl, 'Price') }}
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field>
-        <mat-select
-          placeholder="Category"
-          formControlName="categoryControl"
-          required
-        >
-          <mat-option *ngFor="let cat of categories" [value]="cat.id">
-            {{ cat.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="categoryControl.invalid">
-          {{ getErrorMessage(categoryControl, 'Category') }}
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            placeholder="Image URL"
+            formControlName="imageUrlControl"
+            required
+            (change)="onChange()"
+          />
+          <mat-error *ngIf="imageUrlControl.invalid">
+            {{ getErrorMessage(imageUrlControl, 'Image URL') }}
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field>
-        <input
-          type="text"
-          matInput
-          placeholder="Image URL"
-          formControlName="imageUrlControl"
-          required
-        />
-        <mat-error *ngIf="imageUrlControl.invalid">
-          {{ getErrorMessage(imageUrlControl, 'Image URL') }}
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field>
+          <mat-select
+            placeholder="Category"
+            formControlName="categoryControl"
+            required
+            (selectionChange)="onChange()"
+          >
+            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="categoryControl.invalid">
+            {{ getErrorMessage(categoryControl, 'Category') }}
+          </mat-error>
+        </mat-form-field>
 
-      <div fxLayout fxLayoutGap="10px">
-        <button
-          type="submit"
-          [disabled]="productForm.invalid"
-          mat-flat-button
-          color="accent"
-        >
-          Save
-        </button>
-        <button type="button" routerLink="/admin/products" mat-stroked-button>
-          Cancel
-        </button>
-        <div fxFlex></div>
-        <button
-          type="button"
-          (click)="delete()"
-          *ngIf="id"
-          mat-flat-button
-          color="warn"
-        >
-          Delete
-        </button>
-      </div>
-    </form>
-  </div>
-  <div>
-    <app-product-card
-      [title]="titleControl.value || 'Title'"
-      [category]="getCategoryNameById(categoryControl.value) || 'Category'"
-      [imageUrl]="imageUrlControl.valid ? imageUrlControl.value : ''"
-      [price]="priceControl.value || '0'"
-    ></app-product-card>
+        <div fxLayout fxLayoutGap="10px">
+          <button
+            type="submit"
+            [disabled]="productForm.invalid"
+            mat-flat-button
+            color="accent"
+          >
+            Save
+          </button>
+          <button type="button" routerLink="/admin/products" mat-stroked-button>
+            Cancel
+          </button>
+          <div fxFlex></div>
+          <button
+            type="button"
+            (click)="delete()"
+            *ngIf="product.id"
+            mat-flat-button
+            color="warn"
+          >
+            Delete
+          </button>
+        </div>
+      </form>
+    </div>
+    <div>
+      <app-product-card
+        [product]="product"
+        [isAdminPreview]="true"
+      ></app-product-card>
+    </div>
   </div>
 </div>

@@ -14,7 +14,6 @@ export class LoginComponent {
   constructor(private auth: AuthService, private userService: UserService, private router: Router) {
     if (sessionStorage.getItem('loginInProgress') === 'true') {
       this.loginInProgress = true;
-      console.log('loginInProgress', this.loginInProgress);
     }
 
     auth.user$.subscribe(user => {
@@ -45,7 +44,6 @@ export class LoginComponent {
     // TODO: find a better way to make navigation work
     setTimeout(() => {
       this.loginInProgress = false;
-      console.log('loginInProgress', this.loginInProgress);
       this.router.navigate([returnUrl]);
     }, 1000);
   }

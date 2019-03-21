@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class ProductService extends FirebaseCollection<Product> {
   constructor(db: AngularFirestore, private categoryService: CategoryService) {
-    super(db, 'products');
+    super(db, '/products');
   }
 
   getAllPopulatedProducts(): Observable<Product[]> {

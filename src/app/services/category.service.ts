@@ -8,6 +8,6 @@ import { FirebaseCollection } from './firebase-collection';
 })
 export class CategoryService extends FirebaseCollection<Category> {
   constructor(db: AngularFirestore) {
-    super(db, 'categories');
+    super(db, '/categories');
   }
 }

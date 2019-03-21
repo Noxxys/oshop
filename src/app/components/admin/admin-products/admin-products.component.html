@@ -1,56 +1,58 @@
-<div fxLayout fxLayoutAlign="space-between center" class="new-product-row">
-  <button routerLink="/admin/products/new" mat-flat-button color="accent">
-    New product
-  </button>
-  <mat-form-field>
-    <input
-      matInput
-      type="text"
-      (keyup)="applyFilter()"
-      placeholder="Filter"
-      [(ngModel)]="filterValue"
-    />
-    <button
-      mat-button
-      *ngIf="filterValue"
-      matSuffix
-      mat-icon-button
-      aria-label="Clear"
-      (click)="clearFilter()"
-    >
-      <mat-icon>close</mat-icon>
+<div class="container">
+  <div fxLayout fxLayoutAlign="space-between center" class="new-product-row">
+    <button routerLink="/admin/products/new" mat-flat-button color="accent">
+      New product
     </button>
-  </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        type="text"
+        (keyup)="applyFilter()"
+        placeholder="Filter"
+        [(ngModel)]="filterValue"
+      />
+      <button
+        mat-button
+        *ngIf="filterValue"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="clearFilter()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+      <td mat-cell *matCellDef="let product">{{ product.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+      <td mat-cell *matCellDef="let product">{{ product.category.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+      <td mat-cell *matCellDef="let product">
+        {{ product.price | currency: 'USD':'symbol' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let product">
+        <a [routerLink]="['/admin/products/', product.id]">Edit</a>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+  </mat-paginator>
 </div>
-
-<table mat-table [dataSource]="dataSource" matSort>
-  <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-    <td mat-cell *matCellDef="let product">{{ product.title }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-    <td mat-cell *matCellDef="let product">{{ product.category.name }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
-    <td mat-cell *matCellDef="let product">
-      {{ product.price | currency: 'USD':'symbol' }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="edit">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let product">
-      <a [routerLink]="['/admin/products/', product.id]">Edit</a>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
-</table>
-
-<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-</mat-paginator>

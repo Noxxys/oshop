@@ -1,17 +1,49 @@
 <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        {{ title }}
-      </mat-card-title>
-      <mat-card-subtitle>
-        {{ category }}
-      </mat-card-subtitle>
-    </mat-card-header>
-    <img [src]="imageUrl" alt="" />
-    <mat-card-content>
-      {{ price | currency: 'USD':'symbol' }}
-    </mat-card-content>
-    <mat-card-actions>
-      <button *ngIf="showAddToCartButton" mat-flat-button color="primary">Add to cart</button>
-    </mat-card-actions>
-  </mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ title }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ category }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <img [src]="imageUrl" alt="" />
+
+  <mat-card-content>
+    {{ price | currency: 'USD':'symbol' }}
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="!isAdminPreview">
+    <button
+      *ngIf="item.quantity === 0; else quantityArea"
+      mat-flat-button
+      color="primary"
+      (click)="addToCart()"
+    >
+      Add to cart
+    </button>
+
+    <ng-template #quantityArea>
+      <div fxLayout fxLayoutAlign="space-between center">
+        <button
+          mat-flat-button
+          color="primary"
+          class=".mat-elevation-z0"
+          (click)="removeFromCart()"
+        >
+          -1
+        </button>
+        <span> {{ item.quantity }} in cart </span>
+        <button
+          mat-flat-button
+          color="primary"
+          class=".mat-elevation-z0"
+          (click)="addToCart()"
+        >
+          +1
+        </button>
+      </div>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>

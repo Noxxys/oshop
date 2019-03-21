@@ -10,12 +10,6 @@ mat-sidenav {
   width: 250px;
 }
 
-$main-margin: 0px;
-
-main {
-  margin: $main-margin;
-}
-
 .full-height {
-  height: calc(100% - #{$header-height} - #{$main-margin} * 2);
+  height: calc(100% - #{$header-height});
 }
