@@ -23,15 +23,9 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
       this.itemsSubscription = this.cartService
         .getAllItems()
         .subscribe(items => {
+          console.log('in subscribe');
           this.dataSource.data = items;
-          this.totalQuantity = items.reduce(
-            (total, item) => (total += item.quantity),
-            0
-          );
-          this.totalPrice = items.reduce(
-            (total, item) => (total += item.product.price),
-            0
-          );
+          this.updateTotals();
         });
     });
   }
@@ -40,5 +34,52 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.itemsSubscription.unsubscribe();
+  }
+
+  private updateTotals() {
+    this.totalQuantity = this.dataSource.data.reduce(
+      (total, item) => (total += item.quantity),
+      0
+    );
+
+    this.totalPrice = this.dataSource.data.reduce(
+      (total, item) => (total += item.quantity * item.product.price),
+      0
+    );
+  }
+
+  onQuantityPlusOne(item: ShoppingCartItem) {
+    //this.updateQuantityClientSide(item, +1);
+
+    this.cartService.addToCart(item.product);
+  }
+
+  onQuantityMinusOne(item: ShoppingCartItem) {
+    //this.updateQuantityClientSide(item, -1);
+
+    this.cartService.removeFromCart(item.product.id);
+  }
+
+  /**
+   * change the quantity and the totals manually to make sure the UI reacts fast in case Firebase is slow
+   * TODO: problem with Firebase updates arriving after several clicks. How to have it client-side
+   * AND being able to receive updates (e.g. from another tab)
+   * @param item the ShoppingCartItem being changed
+   * @param difference the different in quantity (e.g. +1 or -1)
+   */
+  private updateQuantityClientSide(item: ShoppingCartItem, difference: number) {
+    const index = this.dataSource.data.findIndex(i => i.id === item.id);
+
+    if (index === -1) {
+      return;
+    }
+
+    this.dataSource.data[index].quantity += difference;
+
+    if (this.dataSource.data[index].quantity === 0) {
+      this.dataSource.data = this.dataSource.data.filter(i => i.id !== item.id);
+    }
+
+    this.updateTotals();
   }
 }

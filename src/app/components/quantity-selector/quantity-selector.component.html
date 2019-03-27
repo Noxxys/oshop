@@ -1,0 +1,21 @@
+<div fxLayout fxLayoutAlign="start center" fxLayoutGap="16px">
+  <span
+    ><span class="quantity">{{ item.quantity }}</span> {{ suffixText }}
+  </span>
+  <button
+    mat-stroked-button
+    color="primary"
+    class=".mat-elevation-z0"
+    (click)="minusOne()"
+  >
+    -1
+  </button>
+  <button
+    mat-stroked-button
+    color="primary"
+    class=".mat-elevation-z0"
+    (click)="plusOne()"
+  >
+    +1
+  </button>
+</div>

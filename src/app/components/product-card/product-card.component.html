@@ -15,35 +15,24 @@
   </mat-card-content>
 
   <mat-card-actions *ngIf="!isAdminPreview">
-    <button
-      *ngIf="item.quantity === 0; else quantityArea"
-      mat-flat-button
-      color="primary"
-      (click)="addToCart()"
-    >
-      Add to cart
-    </button>
+    <div fxLayoutAlign="center center">
+      <button
+        *ngIf="item.quantity === 0; else quantityArea"
+        mat-flat-button
+        color="primary"
+        (click)="addToCart()"
+      >
+        Add to cart
+      </button>
 
-    <ng-template #quantityArea>
-      <div fxLayout fxLayoutAlign="space-between center">
-        <button
-          mat-flat-button
-          color="primary"
-          class=".mat-elevation-z0"
-          (click)="removeFromCart()"
-        >
-          -1
-        </button>
-        <span> {{ item.quantity }} in cart </span>
-        <button
-          mat-flat-button
-          color="primary"
-          class=".mat-elevation-z0"
-          (click)="addToCart()"
-        >
-          +1
-        </button>
-      </div>
-    </ng-template>
+      <ng-template #quantityArea>
+        <app-quantity-selector
+          [item]="item"
+          [suffixText]="'in cart'"
+          (quantityPlusOne)="addToCart()"
+          (quantityMinusOne)="removeFromCart()"
+        ></app-quantity-selector>
+      </ng-template>
+    </div>
   </mat-card-actions>
 </mat-card>

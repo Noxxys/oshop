@@ -33,6 +33,7 @@ import { SidenavListComponent } from './components/navigation/sidenav-list/siden
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ShoppingCartService } from './services/shopping-cart.service';
 import { ShoppingCartItemService } from './services/shopping-cart-item.service';
+import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { ShoppingCartItemService } from './services/shopping-cart-item.service';
     HeaderComponent,
     SidenavListComponent,
     ProductCardComponent,
+    QuantitySelectorComponent,
   ],
   imports: [
     BrowserModule,

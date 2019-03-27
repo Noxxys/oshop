@@ -71,12 +71,13 @@ export class ProductCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   addToCart() {
-    this.cartService.addToCart(this.item.product);
+    // change the quantity manually first to make the UI react fast in case Firebase is slow
     this.item.quantity += 1;
+    this.cartService.addToCart(this.item.product);
   }
 
   removeFromCart() {
-    this.cartService.removeFromCart(this.item.product.id);
     this.item.quantity -= 1;
+    this.cartService.removeFromCart(this.item.product.id);
   }
 }
