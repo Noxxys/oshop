@@ -60,6 +60,11 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
     this.cartService.removeFromCart(item.product.id);
   }
 
+  onCheckOut() {
+    // create an order
+    // add it to the order collection
+  }
+
   /**
    * change the quantity and the totals manually to make sure the UI reacts fast in case Firebase is slow
    * TODO: problem with Firebase updates arriving after several clicks. How to have it client-side

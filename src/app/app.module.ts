@@ -34,6 +34,8 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ShoppingCartService } from './services/shopping-cart.service';
 import { ShoppingCartItemService } from './services/shopping-cart-item.service';
 import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
+import { AddressFormComponent } from './components/address-form/address-form.component';
+import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { QuantitySelectorComponent } from './components/quantity-selector/quanti
     SidenavListComponent,
     ProductCardComponent,
     QuantitySelectorComponent,
+    AddressFormComponent,
+    OrderSummaryComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,98 @@
+<h2>Shipping address</h2>
+
+<form fxLayout fxLayout="column" fxLayoutGap="16px">
+  <mat-form-field>
+    <input
+      #nameField="ngModel"
+      type="text"
+      matInput
+      placeholder="Name"
+      required
+      [(ngModel)]="address.name"
+      name="name"
+    />
+    <mat-error *ngIf="nameField.invalid && nameField.errors['required']">
+      Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      #addressLine1Field="ngModel"
+      type="text"
+      matInput
+      placeholder="Address line 1"
+      required
+      [(ngModel)]="address.addressLines[0]"
+      name="addressLine1"
+    />
+    <mat-error
+      *ngIf="addressLine1Field.invalid && addressLine1Field.errors['required']"
+    >
+      Address line 1 is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      type="text"
+      matInput
+      placeholder="Address line 2"
+      [(ngModel)]="address.addressLines[1]"
+      name="addressLine2"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      #postCodeField="ngModel"
+      type="text"
+      matInput
+      placeholder="Post code"
+      required
+      [(ngModel)]="address.postCode"
+      name="postCode"
+    />
+    <mat-error
+      *ngIf="postCodeField.invalid && postCodeField.errors['required']"
+    >
+      Post code is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      #cityField="ngModel"
+      type="text"
+      matInput
+      placeholder="City"
+      required
+      [(ngModel)]="address.city"
+      name="city"
+    />
+    <mat-error *ngIf="cityField.invalid && cityField.errors['required']">
+      City is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      #countryField="ngModel"
+      type="text"
+      matInput
+      placeholder="Country"
+      required
+      [(ngModel)]="address.country"
+      name="country"
+    />
+    <mat-error *ngIf="countryField.invalid && countryField.errors['required']">
+      Country is required.
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-flat-button color="accent" type="submit">Place order</button>
+</form>
+
+<p>
+  {{ diagnostic }}
+</p>
