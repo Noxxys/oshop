@@ -1,6 +1,6 @@
 <h2>Shipping address</h2>
 
-<form fxLayout fxLayout="column" fxLayoutGap="16px">
+<form (ngSubmit)="onSubmit()" #addressForm="ngForm" fxLayout fxLayout="column" fxLayoutGap="16px">
   <mat-form-field>
     <input
       #nameField="ngModel"
@@ -90,9 +90,5 @@
     </mat-error>
   </mat-form-field>
 
-  <button mat-flat-button color="accent" type="submit">Place order</button>
+  <button mat-flat-button color="accent" type="submit" [disabled]="!addressForm.form.valid">Place order</button>
 </form>
-
-<p>
-  {{ diagnostic }}
-</p>

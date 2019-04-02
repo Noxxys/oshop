@@ -1,3 +1,26 @@
-<p>
-  order-summary works!
-</p>
+<div
+  fxLayout="column"
+  fxLayoutAlign="start stretch"
+  fxLayoutGap="32px"
+>
+  <h2>Order summary</h2>
+
+  <p>You have {{ totalQuantity }} items in your shopping cart.</p>
+
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="quantityAndName">
+      <td mat-cell *matCellDef="let item">{{ item.quantity}}x {{ item.product.title }}</td>
+      <td mat-footer-cell *matFooterCellDef>Total</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <td mat-cell *matCellDef="let item">
+        {{ item.quantity * item.product.price | currency: 'USD':'symbol' }}
+      </td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalPrice | currency }}</td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    <tr mat-footer-row *matFooterRowDef="columnsToDisplay"></tr>
+  </table>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Address } from 'src/app/models/address';
 
 @Component({
@@ -8,6 +8,7 @@ import { Address } from 'src/app/models/address';
 })
 export class AddressFormComponent implements OnInit {
   address: Address;
+  @Output() addressSubmitted = new EventEmitter();
 
   constructor() {
     this.address = new Address();
@@ -16,5 +17,8 @@ export class AddressFormComponent implements OnInit {
 
   ngOnInit() {}
 
-  get diagnostic() { return JSON.stringify(this.address); }
+  onSubmit() {
+    console.log(this.address);
+    this.addressSubmitted.emit(this.address);
+  }
 }

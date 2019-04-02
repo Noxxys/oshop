@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { Subscription } from 'rxjs';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
 
 @Component({
@@ -23,7 +23,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
       this.itemsSubscription = this.cartService
         .getAllItems()
         .subscribe(items => {
-          console.log('in subscribe');
           this.dataSource.data = items;
           this.updateTotals();
         });
