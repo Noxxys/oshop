@@ -75,7 +75,6 @@ export class ShoppingCartItemService extends FirebaseCollection<
   decreaseQuantity(id: string) {
     this.throwIfNotInitialized();
 
-    // TODO: convert all promises to observables
     this.get(id).pipe(take(1)).subscribe(item => {
       if (item.quantity < 2) {
         this.delete(id);

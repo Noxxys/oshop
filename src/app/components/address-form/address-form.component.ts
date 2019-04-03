@@ -6,7 +6,7 @@ import { Address } from 'src/app/models/address';
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
 })
-export class AddressFormComponent implements OnInit {
+export class AddressFormComponent {
   address: Address;
   @Output() addressSubmitted = new EventEmitter();
 
@@ -15,10 +15,7 @@ export class AddressFormComponent implements OnInit {
     this.address.addressLines = [];
   }
 
-  ngOnInit() {}
-
   onSubmit() {
-    console.log(this.address);
     this.addressSubmitted.emit(this.address);
   }
 }

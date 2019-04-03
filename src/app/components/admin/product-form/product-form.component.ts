@@ -14,7 +14,7 @@ import { CustomValidators } from 'ng2-validation';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss'],
 })
-export class ProductFormComponent implements OnInit, OnDestroy {
+export class ProductFormComponent implements OnDestroy {
   categories: Category[];
   categoriesSubscription: Subscription;
   productsSubscription: Subscription;
@@ -82,8 +82,6 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         });
     }
   }
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     this.categoriesSubscription.unsubscribe();

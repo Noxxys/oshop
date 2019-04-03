@@ -1,26 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   loginInProgress = false;
+  authSubscription: Subscription;
 
   constructor(private auth: AuthService, private userService: UserService, private router: Router) {
     if (sessionStorage.getItem('loginInProgress') === 'true') {
       this.loginInProgress = true;
     }
 
-    auth.user$.subscribe(user => {
+    this.authSubscription = auth.user$.subscribe(user => {
       if (user) {
         this.updateUser(user);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.authSubscription.unsubscribe();
   }
 
   login() {

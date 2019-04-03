@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './order-summary.component.html',
   styleUrls: ['./order-summary.component.scss']
 })
-export class OrderSummaryComponent implements OnInit, OnDestroy {
+export class OrderSummaryComponent implements OnDestroy {
   columnsToDisplay = ['quantityAndName', 'price'];
   dataSource: MatTableDataSource<ShoppingCartItem>;
   itemsSubscription: Subscription;
@@ -27,9 +27,6 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
           this.updateTotals();
         });
     });
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {

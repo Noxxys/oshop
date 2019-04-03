@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Category } from 'src/app/models/category.interface';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/models/product';
@@ -12,11 +12,12 @@ import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
   categories$: Observable<Category[]>;
   products$: Observable<Product[]>;
   items$: Observable<ShoppingCartItem[]>;
   selectedCategoryId: string;
+  queryParamsSubscription: Subscription;
 
   constructor(
     private categoryService: CategoryService,
@@ -30,12 +31,16 @@ export class HomeComponent {
 
     // when the query params change, update the selected category and displayed products
     // this is also triggered on page load
-    route.queryParams.subscribe((params: Params) => {
+    this.queryParamsSubscription = route.queryParams.subscribe((params: Params) => {
       this.selectedCategoryId = params.category || '';
       this.products$ = this.productService.getPopulatedProductsByCategory(
         this.selectedCategoryId
       );
     });
+  }
+
+  ngOnDestroy() {
+    this.queryParamsSubscription.unsubscribe();
   }
 
   onSelectedCategoryChange() {

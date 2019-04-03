@@ -9,7 +9,7 @@ import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss'],
 })
-export class ProductCardComponent implements OnInit, OnDestroy, OnChanges {
+export class ProductCardComponent implements OnDestroy, OnChanges {
   @Input() product: Product;
   @Input() isAdminPreview: Boolean;
   item: ShoppingCartItem;
@@ -49,9 +49,6 @@ export class ProductCardComponent implements OnInit, OnDestroy, OnChanges {
       },
       quantity: 0,
     };
-  }
-
-  ngOnInit() {
   }
 
   async ngOnChanges() {

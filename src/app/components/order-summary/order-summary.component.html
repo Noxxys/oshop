@@ -5,7 +5,8 @@
 >
   <h2>Order summary</h2>
 
-  <p>You have {{ totalQuantity }} items in your shopping cart.</p>
+  <p *ngIf="totalQuantity === 1">You have 1 item in your shopping cart.</p>
+  <p *ngIf="totalQuantity > 1">You have {{ totalQuantity }} items in your shopping cart.</p>
 
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="quantityAndName">

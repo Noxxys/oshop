@@ -22,7 +22,7 @@ export class UserService extends FirebaseCollection<AppUser> {
   }
 
   // TODO: necessary? can't super.get do that?
-  get(uid: string): Observable<AppUser> {
-    return this.db.doc<AppUser>('/users/' + uid).valueChanges();
-  }
+  // get(uid: string): Observable<AppUser> {
+  //   return this.db.doc<AppUser>('/users/' + uid).valueChanges();
+  // }
 }

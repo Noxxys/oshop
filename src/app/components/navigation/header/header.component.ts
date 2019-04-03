@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnDestroy {
   @Output() public sidenavToggle = new EventEmitter();
   appUser: AppUser;
   authSubscription: Subscription;
@@ -24,11 +24,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   numberInCartSubscription: Subscription;
 
   constructor(
-    private auth: AuthService,
+    private authService: AuthService,
     private router: Router,
     cartService: ShoppingCartService
   ) {
-    this.authSubscription = auth.appUser$.subscribe(
+    this.authSubscription = authService.appUser$.subscribe(
       appUser => (this.appUser = appUser)
     );
 
@@ -38,8 +38,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       })
     );
   }
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
@@ -51,6 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   };
 
   logout() {
-    this.auth.logout().then(() => this.router.navigate(['/']));
+    this.authService.logout().then(() => this.router.navigate(['/']));
   }
 }

@@ -45,7 +45,7 @@ export class ShoppingCartService extends FirebaseCollection<ShoppingCart> {
     return result.id;
   }
 
-  initializeItemService(cartId: string) {
+  private initializeItemService(cartId: string) {
     this.itemService.initialize(cartId);
   }
 
