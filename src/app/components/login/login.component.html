@@ -1,13 +1,13 @@
 <div class="container">
   <div *ngIf="!loginInProgress">
-    <h2>Please log in to continue</h2>
+    <h2 class="mt0">Please log in to continue</h2>
     <button mat-flat-button color="accent" (click)="login()">
       <span>Log in with Google</span>
     </button>
   </div>
 
   <div *ngIf="loginInProgress">
-    <h2>Loggin in&hellip;</h2>
+    <h2>Logging in&hellip;</h2>
     <mat-spinner color="accent"></mat-spinner>
   </div>
 </div>

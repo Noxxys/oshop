@@ -13,6 +13,7 @@ export class LoginComponent implements OnDestroy {
   loginInProgress = false;
   authSubscription: Subscription;
 
+  // TODO: if already logged in when navigating to login page, redirect to home
   constructor(
     private auth: AuthService,
     private userService: UserService,
