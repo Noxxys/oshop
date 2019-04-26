@@ -1,11 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Observable, Subscription } from 'rxjs';
-import { Category } from 'src/app/models/category.interface';
+import { Category } from 'src/app/models/firebase-objects/category.interface';
 import { ProductService } from 'src/app/services/product.service';
-import { Product } from 'src/app/models/product';
+import { Product } from 'src/app/models/firebase-objects/product';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
+import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 
 @Component({
   selector: 'app-home',
@@ -31,16 +31,20 @@ export class HomeComponent implements OnDestroy {
 
     // when the query params change, update the selected category and displayed products
     // this is also triggered on page load
-    this.queryParamsSubscription = route.queryParams.subscribe((params: Params) => {
-      this.selectedCategoryId = params.category || '';
-      this.products$ = this.productService.getPopulatedProductsByCategory(
-        this.selectedCategoryId
-      );
-    });
+    this.queryParamsSubscription = route.queryParams.subscribe(
+      (params: Params) => {
+        this.selectedCategoryId = params.category || '';
+        this.products$ = this.productService.getPopulatedProductsByCategory(
+          this.selectedCategoryId
+        );
+      }
+    );
   }
 
   ngOnDestroy() {
-    this.queryParamsSubscription.unsubscribe();
+    if (this.queryParamsSubscription) {
+      this.queryParamsSubscription.unsubscribe();
+    }
   }
 
   onSelectedCategoryChange() {

@@ -1,11 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  OnDestroy,
-} from '@angular/core';
-import { AppUser } from 'src/app/models/app-user.interface';
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { AppUser } from 'src/app/models/firebase-objects/app-user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
@@ -40,8 +34,13 @@ export class HeaderComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSubscription.unsubscribe();
-    this.numberInCartSubscription.unsubscribe();
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+
+    if (this.numberInCartSubscription) {
+      this.numberInCartSubscription.unsubscribe();
+    }
   }
 
   onToggleSidenav = () => {

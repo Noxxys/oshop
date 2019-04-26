@@ -1,5 +1,5 @@
 import { ShoppingCartItem } from './shopping-cart-item.interface';
-import { Address } from './address';
+import { Address } from '../address';
 import { FirebaseObject } from './firebase-object.interface';
 import { AppUser } from './app-user.interface';
 

@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { Subscription } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
-import { Category } from 'src/app/models/category.interface';
-import { Product } from 'src/app/models/product';
+import { Category } from 'src/app/models/firebase-objects/category.interface';
+import { Product } from 'src/app/models/firebase-objects/product';
 import { Router, ActivatedRoute } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
@@ -84,7 +84,10 @@ export class ProductFormComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.categoriesSubscription.unsubscribe();
+    // TODO: check all subscriptions before unsubscribing
+    if (this.categoriesSubscription) {
+      this.categoriesSubscription.unsubscribe();
+    }
 
     if (this.productsSubscription) {
       this.productsSubscription.unsubscribe();

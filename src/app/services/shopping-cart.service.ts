@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
-import { ShoppingCart } from '../models/shopping-cart.interface';
+import { ShoppingCart } from '../models/firebase-objects/shopping-cart.interface';
 import { FirebaseCollection } from './firebase-collection';
-import { Product } from '../models/product';
+import { Product } from '../models/firebase-objects/product';
 import { take, map } from 'rxjs/operators';
 import { ShoppingCartItemService } from './shopping-cart-item.service';
 import { Observable } from 'rxjs';
-import { ShoppingCartItem } from '../models/shopping-cart-item.interface';
+import { ShoppingCartItem } from '../models/firebase-objects/shopping-cart-item.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -83,5 +83,12 @@ export class ShoppingCartService extends FirebaseCollection<ShoppingCart> {
 
   getAllItems(): Observable<ShoppingCartItem[]> {
     return this.itemService.getAll();
+  }
+
+  async deleteCart() {
+    const cartId = await this.getOrCreateCartId();
+    await this.itemService.deleteCollection();
+    this.delete(cartId);
+    localStorage.removeItem('cartId');
   }
 }

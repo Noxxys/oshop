@@ -1,36 +1,40 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
-import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 import { MatTableDataSource } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-summary',
   templateUrl: './order-summary.component.html',
-  styleUrls: ['./order-summary.component.scss']
+  styleUrls: ['./order-summary.component.scss'],
 })
-export class OrderSummaryComponent implements OnDestroy {
+export class OrderSummaryComponent implements OnInit, OnDestroy {
+  @Input() items$: Observable<ShoppingCartItem[]>;
+
+  itemsSubscription: Subscription;
   columnsToDisplay = ['quantityAndName', 'price'];
   dataSource: MatTableDataSource<ShoppingCartItem>;
-  itemsSubscription: Subscription;
-  totalQuantity: Number;
+  totalQuantity: number;
   totalPrice: number;
 
-  constructor(private cartService: ShoppingCartService) {
+  constructor() {
     this.dataSource = new MatTableDataSource<ShoppingCartItem>();
+  }
 
-    this.cartService.initialize().then(() => {
-      this.itemsSubscription = this.cartService
-        .getAllItems()
-        .subscribe(items => {
-          this.dataSource.data = items;
-          this.updateTotals();
-        });
-    });
+  ngOnInit() {
+    if (this.items$) {
+      this.itemsSubscription = this.items$.subscribe(items => {
+        this.dataSource.data = items;
+        this.updateTotals();
+      });
+    }
   }
 
   ngOnDestroy() {
-    this.itemsSubscription.unsubscribe();
+    if (this.itemsSubscription) {
+      this.itemsSubscription.unsubscribe();
+    }
   }
 
   private updateTotals() {

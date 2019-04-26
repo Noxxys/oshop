@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Address } from 'src/app/models/address';
 import { OrderService } from 'src/app/services/order.service';
-import { Order } from 'src/app/models/order';
+import { Order } from 'src/app/models/firebase-objects/order';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
-import { take } from 'rxjs/operators';
-import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
+import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 import { AuthService } from 'src/app/services/auth.service';
-import { AppUser } from 'src/app/models/app-user.interface';
-import { Subscription } from 'rxjs';
+import { AppUser } from 'src/app/models/firebase-objects/app-user.interface';
+import { Subscription, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-check-out',
@@ -18,38 +18,61 @@ import { Router } from '@angular/router';
 export class CheckOutComponent implements OnDestroy {
   shoppingCartItems: ShoppingCartItem[];
   appUser: AppUser;
-  cartSubscription: Subscription;
+  itemsSubscription: Subscription;
   authSubscription: Subscription;
+  items$: Observable<ShoppingCartItem[]>;
 
   constructor(
     private orderService: OrderService,
-    cartService: ShoppingCartService,
+    private cartService: ShoppingCartService,
     authService: AuthService,
     private router: Router
   ) {
-    cartService.initialize();
-    this.cartSubscription = cartService
-      .getAllItems()
-      .pipe(take(1))
-      .subscribe(items => (this.shoppingCartItems = items));
+    this.cartService.initialize().then(() => {
+      cartService
+        .getNumberOfItemsInCart()
+        .pipe(take(1))
+        .subscribe(num => {
+          if (!num) {
+            console.error(
+              'Tried to access check-out without any items in the shopping cart'
+            );
+            router.navigate(['/']);
+          }
+        });
+
+      this.items$ = cartService.getAllItems();
+      this.itemsSubscription = this.items$.subscribe(items => {
+        this.shoppingCartItems = items;
+      });
 
       this.authSubscription = authService.appUser$.subscribe(
         appUser => (this.appUser = appUser)
       );
+    });
   }
 
   ngOnDestroy() {
-    this.cartSubscription.unsubscribe();
-    this.authSubscription.unsubscribe();
+    if (this.itemsSubscription) {
+      this.itemsSubscription.unsubscribe();
+    }
+
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
-  onAddressSubmitted(address: Address) {
+  async onAddressSubmitted(address: Address) {
     const order = new Order();
     order.address = address;
     order.shoppingCartItems = this.shoppingCartItems;
     order.user = this.appUser;
 
-    this.orderService.create(order);
-    this.router.navigate(['/order-success']);
+    const docRef = await this.orderService.create(order);
+
+    this.cartService.deleteCart();
+    this.router.navigate(['/order-success'], {
+      queryParams: { orderId: docRef.id },
+    });
   }
 }

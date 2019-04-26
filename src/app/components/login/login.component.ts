@@ -7,13 +7,17 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnDestroy {
   loginInProgress = false;
   authSubscription: Subscription;
 
-  constructor(private auth: AuthService, private userService: UserService, private router: Router) {
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {
     if (sessionStorage.getItem('loginInProgress') === 'true') {
       this.loginInProgress = true;
     }
@@ -26,7 +30,9 @@ export class LoginComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authSubscription.unsubscribe();
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   login() {

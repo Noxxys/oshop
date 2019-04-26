@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Category } from '../models/category.interface';
+import { Category } from '../models/firebase-objects/category.interface';
 import { FirebaseCollection } from './firebase-collection';
 
 @Injectable({

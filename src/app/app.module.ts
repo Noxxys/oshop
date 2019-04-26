@@ -36,6 +36,7 @@ import { ShoppingCartItemService } from './services/shopping-cart-item.service';
 import { QuantitySelectorComponent } from './components/quantity-selector/quantity-selector.component';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
+import { OrderReviewComponent } from './components/order-review/order-review.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
     QuantitySelectorComponent,
     AddressFormComponent,
     OrderSummaryComponent,
+    OrderReviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +87,11 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
       {
         path: 'my-orders',
         component: MyOrdersComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'my-orders/:id',
+        component: OrderReviewComponent,
         canActivate: [AuthGuardService],
       },
 

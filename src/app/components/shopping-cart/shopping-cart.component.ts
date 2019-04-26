@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
-import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
+import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -32,7 +32,9 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   ngOnDestroy() {
-    this.itemsSubscription.unsubscribe();
+    if (this.itemsSubscription) {
+      this.itemsSubscription.unsubscribe();
+    }
   }
 
   private updateTotals() {

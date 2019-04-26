@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FirebaseCollection } from './firebase-collection';
-import { ShoppingCartItem } from '../models/shopping-cart-item.interface';
+import { ShoppingCartItem } from '../models/firebase-objects/shopping-cart-item.interface';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { Product } from '../models/product';
+import { Product } from '../models/firebase-objects/product';
 import { take } from 'rxjs/operators';
 
 @Injectable({
@@ -53,7 +53,7 @@ export class ShoppingCartItemService extends FirebaseCollection<
       quantity: 1,
       id: product.id,
     };
-    return super.create(newItem, id);
+    return super.createWithId(newItem, id);
   }
 
   update(id: string, item: ShoppingCartItem): Promise<void> {
@@ -64,6 +64,11 @@ export class ShoppingCartItemService extends FirebaseCollection<
   delete(id: string): Promise<void> {
     this.throwIfNotInitialized();
     return super.delete(id);
+  }
+
+  deleteCollection(): Promise<void> {
+    this.throwIfNotInitialized();
+    return super.deleteCollection();
   }
 
   increaseQuantity(id: string, item: ShoppingCartItem): Promise<void> {

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
-import { Product } from 'src/app/models/product';
+import { Product } from 'src/app/models/firebase-objects/product';
 import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { Subscription } from 'rxjs';
-import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
+import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 
 @Component({
   selector: 'app-product-card',
@@ -64,7 +64,9 @@ export class ProductCardComponent implements OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.cartItemSubscription.unsubscribe();
+    if (this.cartItemSubscription) {
+      this.cartItemSubscription.unsubscribe();
+    }
   }
 
   addToCart() {

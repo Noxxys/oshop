@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ShoppingCartItem } from 'src/app/models/shopping-cart-item.interface';
+import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 
 @Component({
   selector: 'app-quantity-selector',

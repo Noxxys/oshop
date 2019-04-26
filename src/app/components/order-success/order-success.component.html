@@ -1,3 +1,16 @@
-<p>
-  order-success works!
-</p>
+<div class="container">
+  <p>Your order with ID {{ orderId }} has been received successfully!</p>
+  <p>
+    Since this is a fake web shop, you won't receive anything. And you didn't
+    pay for it, so what can you expect, eh?
+  </p>
+  <div fxLayout fxLayoutGap="16px">
+    <button routerLink="/" mat-flat-button color="primary">
+      Back to the shop
+    </button>
+    <button [routerLink]="['/my-orders/', orderId]" mat-flat-button color="primary">View this order</button>
+    <button routerLink="/my-orders" mat-flat-button color="primary">
+      View all my orders
+    </button>
+  </div>
+</div>

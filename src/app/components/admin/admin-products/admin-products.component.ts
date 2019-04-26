@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Subscription } from 'rxjs';
-import { Product } from 'src/app/models/product';
+import { Product } from 'src/app/models/firebase-objects/product';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 @Component({
@@ -33,7 +33,9 @@ export class AdminProductsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   applyFilter() {

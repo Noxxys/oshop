@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { AppUser } from 'src/app/models/app-user.interface';
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { AppUser } from 'src/app/models/firebase-objects/app-user.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -19,7 +19,9 @@ export class SidenavListComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.appUserSubscription.unsubscribe();
+    if (this.appUserSubscription) {
+      this.appUserSubscription.unsubscribe();
+    }
   }
 
   onSidenavClose() {
