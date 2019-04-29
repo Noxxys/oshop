@@ -1,6 +1,9 @@
 <div class="container">
   <h2 class="mt0">Order review</h2>
   <p class="mb32">You are reviewing your order with ID {{ orderId }}</p>
-  <app-order-summary></app-order-summary>
-  <button routerLink="/my-orders" mat-flat-button color="accent" class="mt32">View all my orders</button>
+  <app-order-summary [items$]="items$"></app-order-summary>
+  <div fxLayout fxLayoutAlign="start start" fxLayoutGap="32px" class="mt32">
+    <button routerLink="/my-orders" mat-flat-button color="accent">View all my orders</button>
+    <button routerLink="/" mat-flat-button color="primary">Back to the shop</button>
+  </div>
 </div>
