@@ -1,3 +1,5 @@
-<p>
-  my-orders works!
-</p>
+<div class="container">
+  <ul>
+    <li *ngFor="let order of (orders$ | async)">{{ order.id }}</li>
+  </ul>
+</div>
