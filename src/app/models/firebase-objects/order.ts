@@ -8,4 +8,5 @@ export class Order implements FirebaseObject {
   shoppingCartItems: ShoppingCartItem[];
   address: Address;
   user: AppUser;
+  date: Date;
 }
