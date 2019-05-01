@@ -1,3 +1,16 @@
 li {
   list-style: none;
 }
+
+a {
+  text-decoration-line: None;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+.order-detail {
+  overflow: hidden;
+  display: flex;
+}

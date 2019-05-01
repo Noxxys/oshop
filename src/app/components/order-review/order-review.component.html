@@ -1,7 +1,9 @@
 <div class="container">
   <h2 class="mt0">Order review</h2>
   <p class="mb32">You are reviewing your order with ID {{ orderId }}</p>
+  <!-- TODO: add quantity column, then maybe don't re-use the same component? -->
   <app-order-summary [items$]="items$"></app-order-summary>
+  <!-- TODO: add address -->
   <div fxLayout fxLayoutAlign="start start" fxLayoutGap="32px" class="mt32">
     <button routerLink="/my-orders" mat-flat-button color="accent">View all my orders</button>
     <button routerLink="/" mat-flat-button color="primary">Back to the shop</button>
