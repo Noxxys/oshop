@@ -4,7 +4,13 @@ import { Subscription } from 'rxjs';
 import { Order } from 'src/app/models/firebase-objects/order';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrderService } from 'src/app/services/order.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-my-orders',
@@ -65,6 +71,8 @@ export class MyOrdersComponent implements OnInit, OnDestroy {
   }
 
   OnOrderClicked(order: Order) {
-    this.expandedOrder = this.expandedOrder === order ? null : order;
+    if (order.shoppingCartItems.length > 1) {
+      this.expandedOrder = this.expandedOrder === order ? null : order;
+    }
   }
 }
