@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  AfterViewChecked,
+} from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Order } from 'src/app/models/firebase-objects/order';
@@ -30,7 +37,8 @@ import {
     ]),
   ],
 })
-export class MyOrdersComponent implements OnInit, OnDestroy {
+export class MyOrdersComponent
+  implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
   columnsToDisplay = ['products', 'date', 'link'];
   fieldsToFilter = ['products', 'date', 'link'];
   dataSource: MatTableDataSource<Order>;
@@ -46,18 +54,33 @@ export class MyOrdersComponent implements OnInit, OnDestroy {
     // TODO: try to log out from each page to see what happens. There should be no error, and potentially some redirects
     this.dataSource = new MatTableDataSource<Order>();
 
-    authService.appUser$.subscribe(user => {
+    this.authSubscription = authService.appUser$.subscribe(user => {
       if (user) {
-        this.ordersSubscription = orderService
+        this.ordersSubscription = this.ordersSubscription = orderService
           .getAllForUser(user.id)
-          .subscribe(orders => (this.dataSource.data = orders));
+          .subscribe(orders => {
+            this.dataSource.data = orders;
+          });
       }
     });
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    console.log('ngOnInit', this.paginator);
+    // TODO: check if sorting is working, other fix it like the paginator
     this.dataSource.sort = this.sort;
+  }
+
+  ngAfterViewInit() {
+    console.log('ngAfterViewInit', this.paginator);
+  }
+
+  ngAfterViewChecked() {
+    console.log('ngAfterViewChecked', this.paginator);
+    if (this.paginator && !this.dataSource.paginator) {
+      this.dataSource.paginator = this.paginator;
+      console.log('dataSource.paginator', this.dataSource.paginator);
+    }
   }
 
   ngOnDestroy() {

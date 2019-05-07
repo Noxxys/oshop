@@ -1,69 +1,73 @@
 <div class="container">
   <h2 class="mt0">My Orders</h2>
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
-    <!-- TODO: create a component to generate a description from a list of ShoppingCartItems -->
-    <ng-container matColumnDef="products">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Products</th>
-      <td mat-cell *matCellDef="let order">
-        <div *ngIf="order.shoppingCartItems.length > 1; else singleItem">
-          <span *ngIf="order === expandedOrder">v</span>
-          <span *ngIf="order !== expandedOrder">></span>
-          &nbsp;{{ order.shoppingCartItems.length }} products
-        </div>
-        <ng-template #singleItem>
-          {{ order.shoppingCartItems[0].quantity }}x
-          {{ order.shoppingCartItems[0].product.title }}
-        </ng-template>
-      </td>
-    </ng-container>
+  <div *ngIf="!dataSource.data || dataSource.data.length === 0; else ordersTable">
+    <p>You have no orders yet.</p>
+  </div>
+  <ng-template #ordersTable>
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+      <!-- TODO: create a component to generate a description from a list of ShoppingCartItems -->
+      <ng-container matColumnDef="products">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Products</th>
+        <td mat-cell *matCellDef="let order">
+          <div *ngIf="order.shoppingCartItems.length > 1; else singleItem">
+            <span *ngIf="order === expandedOrder">v</span>
+            <span *ngIf="order !== expandedOrder">></span>
+            &nbsp;{{ order.shoppingCartItems.length }} products
+          </div>
+          <ng-template #singleItem>
+            {{ order.shoppingCartItems[0].quantity }}x
+            {{ order.shoppingCartItems[0].product.title }}
+          </ng-template>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-      <td mat-cell *matCellDef="let order">{{ order.date | date: 'short' }}</td>
-    </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let order">{{ order.date | date: 'short' }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="link">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-      <td mat-cell *matCellDef="let order">
-        <a [routerLink]="order.id">View order</a>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="link">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let order">
+          <a [routerLink]="order.id">View order</a>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="expandedDetail">
-      <td
-        mat-cell
-        *matCellDef="let order"
-        [attr.colspan]="columnsToDisplay.length"
-      >
-        <div
-          class="order-detail"
-          [@detailExpand]="order == expandedOrder ? 'expanded' : 'collapsed'"
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let order"
+          [attr.colspan]="columnsToDisplay.length"
         >
-          <ul class="ml0 pl0">
-            <li *ngFor="let item of order.shoppingCartItems">
-              <span *ngIf="item.quantity > 1">{{ item.quantity }}x </span
-              >{{ item.product.title }}
-            </li>
-          </ul>
-        </div>
-      </td>
-    </ng-container>
+          <div
+            class="order-detail"
+            [@detailExpand]="order == expandedOrder ? 'expanded' : 'collapsed'"
+          >
+            <ul class="ml0 pl0">
+              <li *ngFor="let item of order.shoppingCartItems">
+                <span *ngIf="item.quantity > 1">{{ item.quantity }}x </span
+                >{{ item.product.title }}
+              </li>
+            </ul>
+          </div>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr
-      mat-row
-      *matRowDef="let order; columns: columnsToDisplay"
-      class="order-row"
-      [class.clickable]="order.shoppingCartItems.length > 1"
-      (click)="OnOrderClicked(order)"
-    ></tr>
-    <tr
-      mat-row
-      *matRowDef="let order; columns: ['expandedDetail']"
-      class="detail-row"
-    ></tr>
-  </table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-  </mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr
+        mat-row
+        *matRowDef="let order; columns: columnsToDisplay"
+        class="order-row"
+        [class.clickable]="order.shoppingCartItems.length > 1"
+        (click)="OnOrderClicked(order)"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let order; columns: ['expandedDetail']"
+        class="detail-row"
+      ></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+    </mat-paginator>
+  </ng-template>
 </div>
