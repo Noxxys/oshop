@@ -81,6 +81,11 @@ export class MyOrdersComponent
       this.dataSource.paginator = this.paginator;
       console.log('dataSource.paginator', this.dataSource.paginator);
     }
+
+    if (this.sort && !this.dataSource.sort) {
+      this.dataSource.sort = this.sort;
+      console.log('dataSource.sort', this.dataSource.sort);
+    }
   }
 
   ngOnDestroy() {
@@ -93,9 +98,13 @@ export class MyOrdersComponent
     }
   }
 
-  OnOrderClicked(order: Order) {
+  onOrderClicked(order: Order) {
     if (order.shoppingCartItems.length > 1) {
       this.expandedOrder = this.expandedOrder === order ? null : order;
     }
+  }
+
+  countItems(order: Order) {
+    return order.shoppingCartItems.reduce((sum, item) => sum += item.quantity, 0);
   }
 }
