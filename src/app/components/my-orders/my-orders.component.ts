@@ -37,9 +37,8 @@ import {
     ]),
   ],
 })
-export class MyOrdersComponent
-  implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
-  columnsToDisplay = ['products', 'date', 'link'];
+export class MyOrdersComponent implements OnDestroy, AfterViewChecked {
+  columnsToDisplay = ['products', 'totalPrice', 'date', 'link'];
   fieldsToFilter = ['products', 'date', 'link'];
   dataSource: MatTableDataSource<Order>;
   authSubscription: Subscription;
@@ -50,7 +49,7 @@ export class MyOrdersComponent
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(orderService: OrderService, authService: AuthService) {
+  constructor(private orderService: OrderService, authService: AuthService) {
     // TODO: try to log out from each page to see what happens. There should be no error, and potentially some redirects
     this.dataSource = new MatTableDataSource<Order>();
 
@@ -65,26 +64,13 @@ export class MyOrdersComponent
     });
   }
 
-  ngOnInit() {
-    console.log('ngOnInit', this.paginator);
-    // TODO: check if sorting is working, other fix it like the paginator
-    this.dataSource.sort = this.sort;
-  }
-
-  ngAfterViewInit() {
-    console.log('ngAfterViewInit', this.paginator);
-  }
-
   ngAfterViewChecked() {
-    console.log('ngAfterViewChecked', this.paginator);
     if (this.paginator && !this.dataSource.paginator) {
       this.dataSource.paginator = this.paginator;
-      console.log('dataSource.paginator', this.dataSource.paginator);
     }
 
     if (this.sort && !this.dataSource.sort) {
       this.dataSource.sort = this.sort;
-      console.log('dataSource.sort', this.dataSource.sort);
     }
   }
 
@@ -105,6 +91,16 @@ export class MyOrdersComponent
   }
 
   countItems(order: Order) {
-    return order.shoppingCartItems.reduce((sum, item) => sum += item.quantity, 0);
+    return order.shoppingCartItems.reduce(
+      (sum, item) => (sum += item.quantity),
+      0
+    );
+  }
+
+  getTotalPrice(order: Order): number {
+    return order.shoppingCartItems.reduce(
+      (sum, item) => (sum += item.quantity * item.product.price),
+      0
+    );
   }
 }
