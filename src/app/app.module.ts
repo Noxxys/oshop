@@ -37,6 +37,7 @@ import { QuantitySelectorComponent } from './components/quantity-selector/quanti
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { OrderSummaryComponent } from './components/order-summary/order-summary.component';
 import { OrderReviewComponent } from './components/order-review/order-review.component';
+import { AddressDisplayComponent } from './components/address-display/address-display.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { OrderReviewComponent } from './components/order-review/order-review.com
     AddressFormComponent,
     OrderSummaryComponent,
     OrderReviewComponent,
+    AddressDisplayComponent,
   ],
   imports: [
     BrowserModule,

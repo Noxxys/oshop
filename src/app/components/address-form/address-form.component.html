@@ -10,6 +10,7 @@
       required
       [(ngModel)]="address.name"
       name="name"
+      [disabled]="isReadOnly"
     />
     <mat-error *ngIf="nameField.invalid && nameField.errors['required']">
       Name is required.
@@ -25,6 +26,7 @@
       required
       [(ngModel)]="address.addressLines[0]"
       name="addressLine1"
+      [disabled]="isReadOnly"
     />
     <mat-error
       *ngIf="addressLine1Field.invalid && addressLine1Field.errors['required']"
@@ -40,6 +42,7 @@
       placeholder="Address line 2"
       [(ngModel)]="address.addressLines[1]"
       name="addressLine2"
+      [disabled]="isReadOnly"
     />
   </mat-form-field>
 
@@ -52,6 +55,7 @@
       required
       [(ngModel)]="address.postCode"
       name="postCode"
+      [disabled]="isReadOnly"
     />
     <mat-error
       *ngIf="postCodeField.invalid && postCodeField.errors['required']"
@@ -69,6 +73,7 @@
       required
       [(ngModel)]="address.city"
       name="city"
+      [disabled]="isReadOnly"
     />
     <mat-error *ngIf="cityField.invalid && cityField.errors['required']">
       City is required.
@@ -84,11 +89,12 @@
       required
       [(ngModel)]="address.country"
       name="country"
+      [disabled]="isReadOnly"
     />
     <mat-error *ngIf="countryField.invalid && countryField.errors['required']">
       Country is required.
     </mat-error>
   </mat-form-field>
 
-  <button mat-flat-button color="accent" type="submit" [disabled]="!addressForm.form.valid">Place order</button>
+  <button *ngIf="!isReadOnly" mat-flat-button color="accent" type="submit" [disabled]="!addressForm.form.valid">Place order</button>
 </form>

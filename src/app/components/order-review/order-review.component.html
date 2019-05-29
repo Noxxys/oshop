@@ -1,11 +1,24 @@
 <div class="container">
   <h2 class="mt0">Order review</h2>
-  <p class="mb32">You are reviewing your order with ID {{ orderId }}</p>
-  <!-- TODO: add quantity column, then maybe don't re-use the same component? -->
-  <app-order-summary [items$]="items$"></app-order-summary>
-  <!-- TODO: add address -->
+  <div *ngIf="order; else notFound">
+    <p class="mb32">You are reviewing your order with ID {{ orderId }}</p>
+    <!-- TODO: why are address and items not shown? -->
+    <div fxLayout fxLayoutAlign="space-between start" fxLayoutGap="32px">
+      <app-address-form [address$]="address$" [isReadOnly]="true" fxFlex></app-address-form>
+      <app-order-summary fxFlex [items$]="items$"></app-order-summary>
+    </div>
+  </div>
+
+  <ng-template #notFound>
+    <p>This order doesn't exist.</p>
+  </ng-template>
+
   <div fxLayout fxLayoutAlign="start start" fxLayoutGap="32px" class="mt32">
-    <button routerLink="/my-orders" mat-flat-button color="accent">View all my orders</button>
-    <button routerLink="/" mat-flat-button color="primary">Back to the shop</button>
+    <button routerLink="/my-orders" mat-flat-button color="accent">
+      View all my orders
+    </button>
+    <button routerLink="/" mat-flat-button color="primary">
+      Back to the shop
+    </button>
   </div>
 </div>

@@ -1,26 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
 import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 import { OrderService } from 'src/app/services/order.service';
+import { Address } from 'src/app/models/address';
+import { Order } from 'src/app/models/firebase-objects/order';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-review',
   templateUrl: './order-review.component.html',
   styleUrls: ['./order-review.component.scss'],
 })
-export class OrderReviewComponent implements OnInit {
+export class OrderReviewComponent implements OnDestroy {
   orderId: string;
   items$: Observable<ShoppingCartItem[]>;
+  //address: Address;
+  //addressSubscription: Subscription;
+  address$: Observable<Address>;
+  order: Order;
+  orderSubscription: Subscription;
 
   constructor(route: ActivatedRoute, orderService: OrderService) {
     this.orderId = route.snapshot.paramMap.get('id');
+    const order$ = orderService.get(this.orderId);
+    this.orderSubscription = order$.subscribe(order => (this.order = order));
+    this.items$ = order$.pipe(map(order => order.shoppingCartItems));
+    this.address$ = order$.pipe(map(order => order.address));
 
-    this.items$ = orderService
-      .get(this.orderId)
-      .pipe(map(order => order.shoppingCartItems));
+    // this.addressSubscription = this.address$.subscribe(
+    //   address => (this.address = address)
+    // );
   }
 
-  ngOnInit() {}
+  ngOnDestroy() {
+    // if (this.addressSubscription) {
+    //   this.addressSubscription.unsubscribe();
+    // }
+
+    if (this.orderSubscription) {
+      this.orderSubscription.unsubscribe();
+    }
+  }
 }

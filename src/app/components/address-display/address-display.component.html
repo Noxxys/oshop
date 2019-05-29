@@ -1,0 +1,22 @@
+<div *ngIf="address">
+  <h3 class="mt32 mb0">Address</h3>
+
+  <div fxLayout="row" fxLayoutGap="64px">
+    <div fxLayout="column">
+      <h4>Name</h4>
+      {{ address.name }}
+      <div *ngFor="let line of address.addressLines; let i = index">
+        <h4>Address line {{ i + 1 }}</h4>
+        {{ address.addressLines[i] }}
+      </div>
+    </div>
+    <div fxLayout="column">
+      <h4>Post code</h4>
+      {{ address.postCode }}
+      <h4>City</h4>
+      {{ address.city }}
+      <h4>Country</h4>
+      {{ address.country }}
+    </div>
+  </div>
+</div>

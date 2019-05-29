@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input() items$: Observable<ShoppingCartItem[]>;
+  //@Input() items: ShoppingCartItem[];
 
   itemsSubscription: Subscription;
   columnsToDisplay = ['quantityAndName', 'price'];
@@ -29,12 +30,19 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         this.updateTotals();
       });
     }
+
+    // if (this.items) {
+    //   this.dataSource.data = this.items;
+    //   this.updateTotals();
+    // }
+
+    // console.log('app-order-summary input items', this.items);
   }
 
   ngOnDestroy() {
-    if (this.itemsSubscription) {
-      this.itemsSubscription.unsubscribe();
-    }
+    // if (this.itemsSubscription) {
+    //   this.itemsSubscription.unsubscribe();
+    // }
   }
 
   private updateTotals() {

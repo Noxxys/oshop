@@ -44,6 +44,7 @@ export class CheckOutComponent implements OnDestroy {
       this.items$ = cartService.getAllItems();
       this.itemsSubscription = this.items$.subscribe(items => {
         this.shoppingCartItems = items;
+        console.log('shoppingCartIems', this.shoppingCartItems);
       });
 
       this.authSubscription = authService.appUser$.subscribe(
