@@ -1,11 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 import { OrderService } from 'src/app/services/order.service';
 import { Address } from 'src/app/models/address';
 import { Order } from 'src/app/models/firebase-objects/order';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-review',
@@ -14,32 +13,30 @@ import { map } from 'rxjs/operators';
 })
 export class OrderReviewComponent implements OnDestroy {
   orderId: string;
-  items$: Observable<ShoppingCartItem[]>;
-  //address: Address;
-  //addressSubscription: Subscription;
   address$: Observable<Address>;
   order: Order;
   orderSubscription: Subscription;
+  itemsSubject: BehaviorSubject<ShoppingCartItem[]>;
+  addressSubject: BehaviorSubject<Address>;
 
   constructor(route: ActivatedRoute, orderService: OrderService) {
     this.orderId = route.snapshot.paramMap.get('id');
-    const order$ = orderService.get(this.orderId);
-    this.orderSubscription = order$.subscribe(order => (this.order = order));
-    this.items$ = order$.pipe(map(order => order.shoppingCartItems));
-    this.address$ = order$.pipe(map(order => order.address));
+    this.itemsSubject = new BehaviorSubject([]);
+    this.addressSubject = new BehaviorSubject(new Address());
 
-    // this.addressSubscription = this.address$.subscribe(
-    //   address => (this.address = address)
-    // );
+    this.orderSubscription = orderService.get(this.orderId).subscribe(order => {
+      this.order = order;
+      this.itemsSubject.next(order.shoppingCartItems);
+      this.addressSubject.next(order.address);
+    });
   }
 
   ngOnDestroy() {
-    // if (this.addressSubscription) {
-    //   this.addressSubscription.unsubscribe();
-    // }
-
     if (this.orderSubscription) {
       this.orderSubscription.unsubscribe();
     }
+
+    this.itemsSubject.complete();
+    this.addressSubject.complete();
   }
 }

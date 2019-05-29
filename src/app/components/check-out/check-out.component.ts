@@ -6,7 +6,7 @@ import { ShoppingCartService } from 'src/app/services/shopping-cart.service';
 import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { AppUser } from 'src/app/models/firebase-objects/app-user.interface';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 
@@ -16,11 +16,12 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./check-out.component.scss'],
 })
 export class CheckOutComponent implements OnDestroy {
-  shoppingCartItems: ShoppingCartItem[];
+  //shoppingCartItems: ShoppingCartItem[];
   appUser: AppUser;
   itemsSubscription: Subscription;
   authSubscription: Subscription;
-  items$: Observable<ShoppingCartItem[]>;
+  //items$: Observable<ShoppingCartItem[]>;
+  itemsSubject: BehaviorSubject<ShoppingCartItem[]>;
 
   constructor(
     private orderService: OrderService,
@@ -41,10 +42,11 @@ export class CheckOutComponent implements OnDestroy {
           }
         });
 
-      this.items$ = cartService.getAllItems();
-      this.itemsSubscription = this.items$.subscribe(items => {
-        this.shoppingCartItems = items;
-        console.log('shoppingCartIems', this.shoppingCartItems);
+      this.itemsSubject = new BehaviorSubject([]);
+
+      this.itemsSubscription = cartService.getAllItems().subscribe(items => {
+        //this.shoppingCartItems = items;
+        this.itemsSubject.next(items);
       });
 
       this.authSubscription = authService.appUser$.subscribe(
@@ -61,12 +63,14 @@ export class CheckOutComponent implements OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+
+    this.itemsSubject.complete();
   }
 
   async onAddressSubmitted(address: Address) {
     const order = new Order();
     order.address = address;
-    order.shoppingCartItems = this.shoppingCartItems;
+    order.shoppingCartItems = this.itemsSubject.value;
     order.user = this.appUser;
     order.date = new Date();
 

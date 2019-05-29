@@ -2,13 +2,13 @@
   <h2 class="mt0">Order review</h2>
   <div *ngIf="order; else notFound">
     <p class="mb32">You are reviewing your order with ID {{ orderId }}</p>
-    <!-- TODO: why are address and items not shown? -->
     <div fxLayout fxLayoutAlign="space-between start" fxLayoutGap="32px">
-      <app-address-form [address$]="address$" [isReadOnly]="true" fxFlex></app-address-form>
-      <app-order-summary fxFlex [items$]="items$"></app-order-summary>
+      <app-address-form [address$]="addressSubject" [isReadOnly]="true" fxFlex></app-address-form>
+      <app-order-summary fxFlex [items$]="itemsSubject"></app-order-summary>
     </div>
   </div>
 
+  <!-- TODO: show a spinner instead of not found. Only show not found it's really 404 -->
   <ng-template #notFound>
     <p>This order doesn't exist.</p>
   </ng-template>

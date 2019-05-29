@@ -28,13 +28,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('address$', this.address$);
-
     if (this.address$) {
-      this.addressSubscription = this.address$.subscribe(address => {
-        this.address = address;
-        console.log('address', address); // TODO: we get nothing here
-      });
+      this.addressSubscription = this.address$.subscribe(
+        address => (this.address = address)
+      );
     }
   }
 

@@ -1,5 +1,4 @@
 <div class="container" fxLayout fxLayoutAlign="space-between start" fxLayoutGap="32px">
   <app-address-form fxFlex (addressSubmitted)="onAddressSubmitted($event)"></app-address-form>
-  <!-- TODO: why is items undefined? -->
-  <app-order-summary fxFlex [items$]="items$"></app-order-summary>
+  <app-order-summary fxFlex [items$]="itemsSubject"></app-order-summary>
 </div>

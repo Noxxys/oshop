@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-item.interface';
 import { MatTableDataSource } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-summary',
@@ -11,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input() items$: Observable<ShoppingCartItem[]>;
-  //@Input() items: ShoppingCartItem[];
 
   itemsSubscription: Subscription;
   columnsToDisplay = ['quantityAndName', 'price'];
@@ -30,21 +28,15 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
         this.updateTotals();
       });
     }
-
-    // if (this.items) {
-    //   this.dataSource.data = this.items;
-    //   this.updateTotals();
-    // }
-
-    // console.log('app-order-summary input items', this.items);
   }
 
   ngOnDestroy() {
-    // if (this.itemsSubscription) {
-    //   this.itemsSubscription.unsubscribe();
-    // }
+    if (this.itemsSubscription) {
+      this.itemsSubscription.unsubscribe();
+    }
   }
 
+  // TODO: use observables to update automatically?
   private updateTotals() {
     this.totalQuantity = this.dataSource.data.reduce(
       (total, item) => (total += item.quantity),
