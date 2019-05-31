@@ -16,6 +16,11 @@ The app is (manually) deployed to Firebase hosting on https://oshop-b85ea.web.ap
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.1.
 
+## Install
+
+First, you need to install [Nodejs](https://nodejs.org) version 8 or higher.
+Then run `npm install` from your command line.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -31,10 +36,12 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Unit tests for this project are currently failing / not implemented yet.
 
 ## Running end-to-end tests
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Please note that I don't plan to add any end-to-end tests to this project, as the focus is to learn Angular.
 
 ## Further help
 
