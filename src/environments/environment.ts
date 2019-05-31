@@ -5,6 +5,9 @@
 export const environment = {
   production: false,
   firebase: {
+    // having the apiKey here is not a security risk
+    // database rules on Firebase control who can read and write what
+    // and deployment of the app on Firebase requires authentication in the CLI
     apiKey: 'AIzaSyDCP076pF2luwKXlM0WFXRmyfKYsfiEptg',
     authDomain: 'oshop-b85ea.firebaseapp.com',
     databaseURL: 'https://oshop-b85ea.firebaseio.com',
