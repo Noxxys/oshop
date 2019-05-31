@@ -12,6 +12,8 @@ I started coding this project along with the teacher, and then quickly decided t
 
 TODO: [see the project's board](https://github.com/Noxxys/oshop/projects/1)
 
+The app is (manually) deployed to Firebase hosting on https://oshop-b85ea.web.app
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.1.
 
 ## Development server
