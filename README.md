@@ -1,5 +1,28 @@
 # Oshop
 
+This project is a fictitious web shop that I created while finishing [this excellent Angular course](https://www.udemy.com/the-complete-angular-master-class). It allows me to apply the knowledge learned during the course. The app's front-end is made with Angular 7, it is serverless and uses Firebase as its real-time database.
+
+I started coding this project along with the teacher, and then quickly decided to continue developping it on my own, because there were too many differences between my code and the teacher's code. Then, I only used the introduction video of each section as requirements of what should be built. Here's the list of differences:
+
+- Using Angular 7 instead of 4
+- Using AngularFire XX instead of XX
+- Ditched Bootstrap in favor of Angular Material
+- Refactored the Firebase services to be more object oriented
+- Most of the code is different now, as I'm not watching the course anymore
+
+TODO:
+- Implement the "Manage orders" section
+- Add a "Disclaimer" section
+- Use image uploading instead of hot-linking
+- Address all the TODOs in the code
+- Refactor the potentially ugly parts
+- unit test everything
+- Check styling consistency
+- Check UX consistency
+- Upgrade to Angular 8 and the latest AngularFire version
+- Deploy to Firebase
+- Set up a devops pipeline on Github
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.1.
 
 ## Development server
