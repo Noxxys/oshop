@@ -17,6 +17,7 @@ TODO:
 - Address all the TODOs in the code
 - Refactor the potentially ugly parts
 - unit test everything
+- Check security (including database rules)
 - Check styling consistency
 - Check UX consistency
 - Upgrade to Angular 8 and the latest AngularFire version
