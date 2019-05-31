@@ -1,5 +1,7 @@
 # Oshop
 
+**This app is a work in progress, missing features and probably containing bugs**. Read below for more information.
+
 This project is a fictitious web shop that I created while finishing [this excellent Angular course](https://www.udemy.com/the-complete-angular-master-class). It allows me to apply the knowledge learned during the course. The app's front-end is made with Angular 7, it is serverless and uses Firebase as its real-time database.
 
 I started coding this project along with the teacher, and then quickly decided to continue developping it on my own, because there were too many differences between my code and the teacher's code. Then, I only used the introduction video of each section as requirements of what should be built. Here's the list of differences:
