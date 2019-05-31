@@ -10,19 +10,7 @@ I started coding this project along with the teacher, and then quickly decided t
 - Refactored the Firebase services to be more object oriented
 - Most of the code is different now, as I'm not watching the course anymore
 
-TODO:
-- Implement the "Manage orders" section
-- Add a "Disclaimer" section
-- Use image uploading instead of hot-linking
-- Address all the TODOs in the code
-- Refactor the potentially ugly parts
-- unit test everything
-- Check security (including database rules)
-- Check styling consistency
-- Check UX consistency
-- Upgrade to Angular 8 and the latest AngularFire version
-- Deploy to Firebase
-- Set up a devops pipeline on Github
+TODO: [see the project's board](https://github.com/Noxxys/oshop/projects/1)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.1.
 
