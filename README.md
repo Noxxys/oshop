@@ -1,5 +1,7 @@
 # Oshop
 
+[![Build Status](https://noxxys.visualstudio.com/oshop/_apis/build/status/Noxxys.oshop?branchName=master)](https://noxxys.visualstudio.com/oshop/_build/latest?definitionId=1&branchName=master)
+
 **This app is a work in progress, missing features and probably containing bugs**. Read below for more information.
 
 This project is a fictitious web shop that I created while finishing [this excellent Angular course](https://www.udemy.com/the-complete-angular-master-class). It allows me to apply the knowledge learned during the course. The app's front-end is made with Angular 7, it is serverless and uses Firebase as its real-time database.
