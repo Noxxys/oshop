@@ -9,9 +9,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  - group: Firebase
-
 steps:
 - task: NodeTool@0
   inputs:
@@ -22,10 +19,22 @@ steps:
     npm install -g @angular/cli
     npm install
     ng build --prod --aot
-  displayName: 'npm install and build'
+  displayName: 'NPM install and build'
 
 - task: PublishPipelineArtifact@0
-  displayName: 'publish artifact'
+  displayName: 'Publish dist artifact'
+  inputs:
+    artifactName: 'drop/dist'
+    targetPath: 'dist'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish deploy script artifact'
   inputs:
     artifactName: 'drop'
-    targetPath: 'dist'
+    targetPath: 'deploy-ci-firebase.ps1'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish firebase.json artifact'
+  inputs:
+    artifactName: 'drop'
+    targetPath: 'firebase.json'
