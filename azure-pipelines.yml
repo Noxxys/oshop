@@ -24,5 +24,8 @@ steps:
     ng build --prod --aot
   displayName: 'npm install and build'
 
-- powershell: .\deploy-ci-firebase.ps1 -fireBaseToken $(firebase_auth_Token) -fireBaseProject $(firebase_project) -releaseMessage $(Release.ReleaseName)
-  displayName: 'deploy to Firebase'
+- task: PublishPipelineArtifact@0
+  displayName: 'publish artifact'
+  inputs:
+    artifactName: 'drop'
+    targetPath: 'dist'
