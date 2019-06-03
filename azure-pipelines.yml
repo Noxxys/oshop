@@ -28,13 +28,7 @@ steps:
     targetPath: 'dist'
 
 - task: PublishPipelineArtifact@0
-  displayName: 'Publish deploy script artifact'
+  displayName: 'Publish Firebase artifact'
   inputs:
     artifactName: 'drop'
-    targetPath: 'deploy-ci-firebase.ps1'
-
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish firebase.json artifact'
-  inputs:
-    artifactName: 'drop'
-    targetPath: 'firebase.json'
+    targetPath: '*firebase*'
