@@ -18,7 +18,9 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- powershell: Write-Host $(authToken)
+- powershell: |
+    Write-Host token
+    Write-Host $(authToken)
 
 - script: |
     npm install -g @angular/cli
