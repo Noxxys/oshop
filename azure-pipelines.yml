@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: Firebase
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -20,3 +23,9 @@ steps:
     npm install
     ng build --prod --aot
   displayName: 'npm install and build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
