@@ -28,7 +28,7 @@ steps:
     targetPath: 'dist'
 
 - task: PublishPipelineArtifact@0
-  displayName: 'Publish Firebase artifact'
+  displayName: 'Publish root artifact'
   inputs:
     artifactName: 'drop'
-    targetPath: '*firebase*'
+    targetPath: ''
