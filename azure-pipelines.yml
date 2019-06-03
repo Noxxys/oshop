@@ -21,14 +21,23 @@ steps:
     ng build --prod --aot
   displayName: 'NPM install and build'
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish dist artifact'
+- task: CopyFiles@2
+  displayName: 'Copy dist files to drop artifact'
   inputs:
-    artifactName: 'drop/dist'
-    targetPath: 'dist'
+    SourceFolder: 'dist'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/dist'
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish root artifact'
+- task: CopyFiles@2
+  displayName: 'Copy Firebase files to drop artifact'
   inputs:
-    artifactName: 'drop'
-    targetPath: ''
+    Contents: 'firebase.json
+      deploy-ci-firebase.ps1'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish drop artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
