@@ -33,6 +33,7 @@ steps:
   inputs:
     Contents: |
       firebase.json
+      .firebaserc
       deploy-ci-firebase.ps1
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
