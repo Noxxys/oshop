@@ -17,13 +17,17 @@ if ($releaseMessage -eq "") {
     $releaseMessage = $env:RELEASE_RELEASEWEBURL;
 }
 
+Write-Host token: $firebaseToken
+Write-Host project: $firebaseProject
+Write-Host message: $releaseMessage
+
 $dir = Split-Path $MyInvocation.MyCommand.Path
 Push-Location $dir
 
 Write-Host "installing Firebase tools..."
 npm i -g firebase-tools
 Write-Host "starting deployment..."
-firebase deploy --token $fireBaseToken --project $fireBaseProject --message $releaseMessage
+firebase deploy --token "$fireBaseToken" --project "$fireBaseProject" --message "$releaseMessage"
 Write-Host "deployment completed"
 
 Pop-Location
