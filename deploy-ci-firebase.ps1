@@ -4,31 +4,6 @@ param(
     [string]$releaseMessage
 )
 
-Write-Host firebaseToken parameter: $firebaseToken
-Write-Host firebaseProject parameter: $firebaseProject
-Write-Host releaseMessage parameter: $releaseMessage
-
-Write-Host FIREBASE_AUTH_TOKEN env: $env:FIREBASE_AUTH_TOKEN
-Write-Host FIREBASE_PROJECT env: $env:FIREBASE_PROJECT
-Write-Host RELEASE_RELEASEWEBURL env: $env:RELEASE_RELEASEWEBURL
-
-Write-Host -------------
-Write-Host "$(token)"
-Write-Host -------------
-
-# if Firebase parameters are not provided, get them from the CI environment variables
-if ($firebaseToken -eq "") {
-    $fireBaseToken = $env:FIREBASE_AUTH_TOKEN;
-}
-
-if ($firebaseProject -eq "") {
-    $firebaseProject = $env:FIREBASE_PROJECT;
-}
-
-if ($releaseMessage -eq "") {
-    $releaseMessage = $env:RELEASE_RELEASEWEBURL;
-}
-
 $dir = Split-Path $MyInvocation.MyCommand.Path
 Push-Location $dir
 
