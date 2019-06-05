@@ -1,15 +1,25 @@
 param(
-    [string]$fireBaseToken,
-    [string]$fireBaseProject,
+    [string]$firebaseToken,
+    [string]$firebaseProject,
     [string]$releaseMessage
 )
+
+# if Firebase parameters are not provided, get them from the CI environment variables
+if ($firebaseToken -eq "") {
+    $fireBaseToken = $env:FIREBASE_AUTH_TOKEN;
+}
+
+if ($firebaseProject -eq "") {
+    $firebaseProject = $env:FIREBASE_PROJECT;
+}
+
 $dir = Split-Path $MyInvocation.MyCommand.Path
 Push-Location $dir
 
+Write-Host "installing Firebase tools..."
 npm i -g firebase-tools
-write-host "starting deployment...";
-firebase --version;
-firebase deploy --token $fireBaseToken --project $fireBaseProject --message "Release: $releaseMessage";
-write-host "deployment completed";
+Write-Host "starting deployment..."
+firebase deploy --token $fireBaseToken --project $fireBaseProject --message "Release: $releaseMessage"
+Write-Host "deployment completed"
 
 Pop-Location
