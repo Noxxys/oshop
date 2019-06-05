@@ -12,8 +12,9 @@ Write-Host FIREBASE_AUTH_TOKEN env: $env:FIREBASE_AUTH_TOKEN
 Write-Host FIREBASE_PROJECT env: $env:FIREBASE_PROJECT
 Write-Host RELEASE_RELEASEWEBURL env: $env:RELEASE_RELEASEWEBURL
 
-$token = "$(FIREBASE_AUTH_TOKEN)"
-Write-Host token direct: $token
+Write-Host -------------
+Write-Host "$(token)"
+Write-Host -------------
 
 # if Firebase parameters are not provided, get them from the CI environment variables
 if ($firebaseToken -eq "") {
