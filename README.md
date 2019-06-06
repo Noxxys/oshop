@@ -10,7 +10,7 @@ This project is a fictitious web shop that I created while finishing [this excel
 I started coding this project along with the teacher, and then quickly decided to continue developping it on my own, because there were too many differences between my code and the teacher's code. Then, I only used the introduction video of each section as requirements of what should be built. Here's a list of some of the differences:
 
 - Using Angular 7 instead of 4
-- Using AngularFire XX instead of XX
+- Using a more recent version of AngularFire
 - Ditched Bootstrap in favor of Angular Material
 - Refactored the Firebase services to be more object oriented
 - Most of the code is different now, as I'm not watching the course anymore
