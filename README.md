@@ -18,7 +18,7 @@ I started coding this project along with the teacher, and then quickly decided t
 
 TODO: [see the project's board](https://github.com/Noxxys/oshop/projects/1)
 
-The app is automatically deployed to Firebase hosting on https://oshop-b85ea.web.app after a successful merge to the master branch
+The app is automatically deployed to Firebase hosting on https://oshop-b85ea.web.app after a successful merge to the master branch. There are also admin screens to manage products and orders, but you need to have admin access for that. If you want to get admin access, send me the Google email you used to log in.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.1.1.
 
