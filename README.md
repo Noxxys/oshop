@@ -1,7 +1,7 @@
 # Oshop
 
 [![Build Status](https://dev.azure.com/noxxys/oshop/_apis/build/status/Noxxys.oshop?branchName=master)](https://dev.azure.com/noxxys/oshop/_build/latest?definitionId=1&branchName=master)
-[![Deployment status](https://noxxys.vsrm.visualstudio.com/_apis/public/Release/badge/f84a8b88-54f2-417a-93e6-cd708b7a4e51/1/1)](#)
+[![Deployment status](https://vsrm.dev.azure.com/noxxys/_apis/public/Release/badge/f84a8b88-54f2-417a-93e6-cd708b7a4e51/1/1)](#)
 
 **This app is a work in progress, missing features and probably containing bugs**. Read below for more information.
 
