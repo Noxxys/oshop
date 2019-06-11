@@ -4,8 +4,8 @@ import {
   DocumentReference,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map, take, switchMap } from 'rxjs/operators';
-import { FirebaseObject } from '../models/firebase-objects/firebase-object.interface';
+import { map, take, switchMap, tap } from 'rxjs/operators';
+import { FirebaseObject } from './firebase-objects/firebase-object.interface';
 
 export abstract class FirebaseCollection<T extends FirebaseObject> {
   private collection: AngularFirestoreCollection<T>;
@@ -27,7 +27,6 @@ export abstract class FirebaseCollection<T extends FirebaseObject> {
   get(requestedId: string): Observable<T> {
     return this.collection
       .doc(requestedId)
-      //.doc<T>(`${this.path}/${requestedId}`)
       .snapshotChanges()
       .pipe(
         map(action => {
@@ -48,6 +47,25 @@ export abstract class FirebaseCollection<T extends FirebaseObject> {
         })
       )
     );
+  }
+
+  getAllWhere(
+    fieldPath: firebase.firestore.FieldPath,
+    filterOp: firebase.firestore.WhereFilterOp,
+    value: any
+  ): Observable<T[]> {
+    return this.db
+      .collection(this._path, ref => ref.where(fieldPath, filterOp, value))
+      .snapshotChanges()
+      .pipe(
+        map(actions =>
+          actions.map(action => {
+            const data = action.payload.doc.data();
+            const id = action.payload.doc.id;
+            return Object.assign({ id }, data) as T;
+          })
+        )
+      );
   }
 
   // TODO: should I convert all promises to observables?
@@ -99,12 +117,12 @@ export abstract class FirebaseCollection<T extends FirebaseObject> {
     }
   }
 
-  // TODO: refactor this to be chainable multiple times
-  sortBy(orderBy: string): firebase.firestore.Query {
-    return this.collection.ref.orderBy(orderBy);
-    // this.collection = this.db.collection<T>(this.path, ref =>
-    //   ref.orderBy(orderBy)
-    // );
-    // return this;
-  }
+  // // TODO: refactor this to be chainable multiple times
+  // sortBy(orderBy: string): firebase.firestore.Query {
+  //   return this.collection.ref.orderBy(orderBy);
+  //   // this.collection = this.db.collection<T>(this.path, ref =>
+  //   //   ref.orderBy(orderBy)
+  //   // );
+  //   // return this;
+  // }
 }

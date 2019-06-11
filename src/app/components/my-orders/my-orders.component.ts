@@ -1,23 +1,21 @@
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
+  AfterViewChecked,
   Component,
   OnDestroy,
-  OnInit,
   ViewChild,
-  AfterViewInit,
-  AfterViewChecked,
 } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Order } from 'src/app/models/firebase-objects/order';
 import { AuthService } from 'src/app/services/auth.service';
 import { OrderService } from 'src/app/services/order.service';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
 
 @Component({
   selector: 'app-my-orders',
@@ -39,7 +37,6 @@ import {
 })
 export class MyOrdersComponent implements OnDestroy, AfterViewChecked {
   columnsToDisplay = ['products', 'totalPrice', 'date', 'link'];
-  fieldsToFilter = ['products', 'date', 'link'];
   dataSource: MatTableDataSource<Order>;
   authSubscription: Subscription;
   ordersSubscription: Subscription;
@@ -49,17 +46,15 @@ export class MyOrdersComponent implements OnDestroy, AfterViewChecked {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private orderService: OrderService, authService: AuthService) {
+  constructor(orderService: OrderService, authService: AuthService) {
     // TODO: try to log out from each page to see what happens. There should be no error, and potentially some redirects
     this.dataSource = new MatTableDataSource<Order>();
 
     this.authSubscription = authService.appUser$.subscribe(user => {
       if (user) {
-        this.ordersSubscription = this.ordersSubscription = orderService
-          .getAllForUser(user.id)
-          .subscribe(orders => {
-            this.dataSource.data = orders;
-          });
+        this.ordersSubscription = orderService
+          .getAll()
+          .subscribe(orders => (this.dataSource.data = orders));
       }
     });
   }
@@ -75,12 +70,12 @@ export class MyOrdersComponent implements OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy() {
-    if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
-
     if (this.ordersSubscription) {
       this.ordersSubscription.unsubscribe();
+    }
+
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
     }
   }
 
