@@ -21,9 +21,9 @@ export class ShoppingCartService extends FirebaseCollection<ShoppingCart> {
     super(db, '/shopping-carts');
   }
 
+  // TODO: any way to avoid this initialize method? it's not possible to have an async constructor
   async initialize() {
     await this.getOrCreateCartId();
-    //this.initializeItemService(cartId);
   }
 
   // TODO: make the create method of the super class private, so this can also be private
@@ -34,10 +34,6 @@ export class ShoppingCartService extends FirebaseCollection<ShoppingCart> {
 
     return super.create(cart) as Promise<DocumentReference>;
   }
-
-  // private initializeItemService(cartId: string) {
-  //   this.itemService.initialize(cartId);
-  // }
 
   async addToCart(product: Product) {
     await this.getOrCreateCartId();

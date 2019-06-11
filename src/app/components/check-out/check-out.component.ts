@@ -16,11 +16,9 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./check-out.component.scss'],
 })
 export class CheckOutComponent implements OnDestroy {
-  //shoppingCartItems: ShoppingCartItem[];
   appUser: AppUser;
   itemsSubscription: Subscription;
   authSubscription: Subscription;
-  //items$: Observable<ShoppingCartItem[]>;
   itemsSubject: BehaviorSubject<ShoppingCartItem[]>;
 
   constructor(
@@ -45,7 +43,6 @@ export class CheckOutComponent implements OnDestroy {
       this.itemsSubject = new BehaviorSubject([]);
 
       this.itemsSubscription = cartService.getAllItems().subscribe(items => {
-        //this.shoppingCartItems = items;
         this.itemsSubject.next(items);
       });
 
@@ -73,9 +70,7 @@ export class CheckOutComponent implements OnDestroy {
     order.shoppingCartItems = this.itemsSubject.value;
     order.date = new Date();
 
-    const docRef = await this.orderService
-      //.initialize(this.appUser.id)
-      .create(order);
+    const docRef = await this.orderService.create(order);
 
     this.cartService.deleteCart();
     this.router.navigate(['/order-success'], {

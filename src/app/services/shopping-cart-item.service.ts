@@ -18,11 +18,6 @@ export class ShoppingCartItemService extends FirebaseCollection<
     super(db, path);
   }
 
-  // initialize(shoppingCartId: string) {
-  //   // TODO: store paths in a constants class
-  //   const path = `/shopping-carts/${shoppingCartId}/items`;
-  // }
-
   createItemFromProduct(
     product: Product,
     id?: string

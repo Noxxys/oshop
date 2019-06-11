@@ -9,7 +9,7 @@ import { ShoppingCartItem } from 'src/app/models/firebase-objects/shopping-cart-
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.scss'],
 })
-export class ShoppingCartComponent implements OnInit, OnDestroy {
+export class ShoppingCartComponent implements OnDestroy {
   columnsToDisplay = ['productImage', 'productName', 'quantity', 'price'];
   dataSource: MatTableDataSource<ShoppingCartItem>;
   itemsSubscription: Subscription;
@@ -28,8 +28,6 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
         });
     });
   }
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     if (this.itemsSubscription) {
@@ -50,20 +48,11 @@ export class ShoppingCartComponent implements OnInit, OnDestroy {
   }
 
   onQuantityPlusOne(item: ShoppingCartItem) {
-    //this.updateQuantityClientSide(item, +1);
-
     this.cartService.addToCart(item.product);
   }
 
   onQuantityMinusOne(item: ShoppingCartItem) {
-    //this.updateQuantityClientSide(item, -1);
-
     this.cartService.removeFromCart(item.product.id);
-  }
-
-  onCheckOut() {
-    // create an order
-    // add it to the order collection
   }
 
   /**

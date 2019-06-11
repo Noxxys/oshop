@@ -12,9 +12,4 @@ export class OrderService extends FirebaseCollection<Order> {
     const path = `/users/${config.userId}/orders`;
     super(db, path);
   }
-
-  // initialize(userId: string): this {
-  //   this.path = `/users/${userId}/orders`;
-  //   return this;
-  // }
 }

@@ -1,10 +1,10 @@
 import {
-  AngularFirestoreCollection,
   AngularFirestore,
+  AngularFirestoreCollection,
   DocumentReference,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { map, take, switchMap, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { FirebaseObject } from './firebase-objects/firebase-object.interface';
 
 export abstract class FirebaseCollection<T extends FirebaseObject> {
@@ -82,32 +82,14 @@ export abstract class FirebaseCollection<T extends FirebaseObject> {
   }
 
   update(id: string, object: T): Promise<void> {
-    //return this.db.doc<T>(`${this.path}/${id}`).update(object);
     return this.collection.doc(id).update(object);
   }
 
   delete(id: string): Promise<void> {
-    //return this.db.doc<T>(`${this.path}/${id}`).delete();
     return this.collection.doc(id).delete();
   }
 
   async deleteCollection(): Promise<void> {
-    // no way to delete a collection, we have to delete all the documents inside the collection
-    // return this.collection.get().pipe(
-    //   take(1),
-    //   switchMap(async snapshot => {
-    //     const promises = snapshot.docs.map(doc => doc.ref.delete());
-
-    //     try {
-    //       await Promise.all(promises);
-    //     } catch (error) {
-    //       console.log(
-    //         `Couldn't delete collection ${this.path} because ${error}`
-    //       );
-    //     }
-    //   })
-    // ).toPromise();
-
     try {
       const snapshot = await this.collection.get().toPromise();
       const deletionPromises = snapshot.docs.map(doc => doc.ref.delete());
@@ -116,13 +98,4 @@ export abstract class FirebaseCollection<T extends FirebaseObject> {
       console.log(`Couldn't delete collection ${this.path} because ${error}`);
     }
   }
-
-  // // TODO: refactor this to be chainable multiple times
-  // sortBy(orderBy: string): firebase.firestore.Query {
-  //   return this.collection.ref.orderBy(orderBy);
-  //   // this.collection = this.db.collection<T>(this.path, ref =>
-  //   //   ref.orderBy(orderBy)
-  //   // );
-  //   // return this;
-  // }
 }
