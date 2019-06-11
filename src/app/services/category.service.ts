@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Category } from '../models/firebase-objects/category.interface';
-import { FirebaseCollection } from './firebase-collection';
+import { FirebaseCollection } from '../models/firebase-collection';
 
 @Injectable({
   providedIn: 'root'

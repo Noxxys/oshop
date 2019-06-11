@@ -45,7 +45,7 @@ export class HeaderComponent implements OnDestroy {
 
   onToggleSidenav = () => {
     this.sidenavToggle.emit();
-  };
+  }
 
   logout() {
     this.authService.logout().then(() => this.router.navigate(['/']));
