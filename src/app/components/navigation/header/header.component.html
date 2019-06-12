@@ -7,13 +7,20 @@
   <button mat-button routerLink="/" class="toolbar-item">Oshop</button>
   <span fxFlex></span>
   <div fxLayout fxLayoutGap="32px" fxHide.xs>
-    <button [matBadge]="numberInCart" [matBadgeHidden]="numberInCart < 1" matBadgeColor="accent" mat-button routerLink="/shopping-cart" class="toolbar-item">
+    <button
+      [matBadge]="numberInCart"
+      [matBadgeHidden]="numberInCart < 1"
+      matBadgeColor="accent"
+      mat-button
+      routerLink="/shopping-cart"
+      class="toolbar-item"
+    >
       Shopping cart
     </button>
 
-    <button
+    <div *ngIf="appUser; else anonymousUser">
+      <button
       mat-button
-      *ngIf="appUser; else anonymousUser"
       [matMenuTriggerFor]="menu"
       class="toolbar-item"
     >
@@ -21,12 +28,19 @@
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item routerLink="/my-orders">My orders</button>
-      <button mat-menu-item routerLink="/admin/orders">Manage orders</button>
-      <button mat-menu-item routerLink="/admin/products">
+      <button *ngIf="appUser.isAdmin" mat-menu-item routerLink="/admin/orders">
+        Manage orders
+      </button>
+      <button
+        *ngIf="appUser.isAdmin"
+        mat-menu-item
+        routerLink="/admin/products"
+      >
         Manage products
       </button>
       <button mat-menu-item (click)="logout()">Log out</button>
     </mat-menu>
+    </div>
 
     <ng-template #anonymousUser>
       <button mat-button routerLink="/login" class="toolbar-item">
